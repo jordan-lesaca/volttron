@@ -82,6 +82,17 @@ def test_set_point(volttron_instance, config_store):
     result = agent.vip.rpc.call(PLATFORM_DRIVER, 'scrape_all', 'home_assistant').get(timeout=20)
     assert result == expected_values, "The result does not match the expected result."
 
+def test_get_switch_state(volttron_instance, config_store):
+    """Switch shuold initially be OFF (0)."""
+    expected = 0
+    agent = volttron_instance.dynamic_agent
+    result = agent.vip.rpc.call(
+        PLATFORM_DRIVER, 
+        'get_point', 
+        'home_assistant', 
+        'switch_state'
+    ).get(timeout=20)
+    assert result == expected, f"Expected switch to be OFF (0), got {result}"
 
 @pytest.fixture(scope="module")
 def config_store(volttron_instance, platform_driver):

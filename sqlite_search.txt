@@ -1,0 +1,694 @@
+./ci-integration/virtualization/Dockerfile.testing:18:    sqlite3
+./.github/workflows/pytest-dbutils-sqlitefuncts.yml:8:name: Testing sqlitefuncts
+./.github/workflows/pytest-dbutils-sqlitefuncts.yml:26:      TEST_FILE: volttrontesting/platform/dbutils/test_sqlitefuncts.py
+./.github/workflows/pytest-miscellaneous-tests.yml:91:      - name: Run sqlite3 test on ${{ matrix.python-version }}, ${{ matrix.os }}
+./.github/workflows/pytest-miscellaneous-tests.yml:96:          test_path: volttrontesting/platform/test_sqlite3_fix.py
+./README.md:27:    2. Historian agents now store the cache database (backup.sqlite file) in
+./README.md:51:       **Note** that the upgrade script will only move the backup.sqlite file and will not move sqlite historian's db  
+./README.md:53:       sqlite historian before upgrading to the latest historian version.
+./docs/source/volttron-topics/VOLTTRON-releases/upgrading-versions.rst:18:    2. Historian agents now store the cache database (backup.sqlite file) in
+./docs/source/volttron-topics/VOLTTRON-releases/upgrading-versions.rst:43:       Note that the upgrade script will only move the backup.sqlite file and will not move sqlite historian's db file
+./docs/source/volttron-topics/VOLTTRON-releases/upgrading-versions.rst:45:       sqlite historian before upgrading to the latest historian version.
+./docs/source/volttron-topics/VOLTTRON-releases/upgrading-versions.rst:152:            mv $VOLTTRON_HOME/data/historian.sqlite $VOLTTRON_HOME/agents/<agent uuid>/<agent>/data
+./docs/source/platform-features/security/agent-isolation-mode.rst:117:   `SQLHistorian` which writes a `.sqlite` file to a subdirectory under `VOLTTRON_HOME` that is not
+./docs/source/introduction/platform-install.rst:104:In order to support historians, the python installation must include the built-in sqlite3 support (a compile time option).
+./docs/source/introduction/platform-install.rst:106:In cases where a user needs to compile their own python (not an officially supported configuration), make sure that the sqlite3 option is enabled.
+./docs/source/agent-framework/historian-agents/historian-framework.rst:203:        "agentid": "sqlhistorian-sqlite",
+./docs/source/agent-framework/historian-agents/historian-framework.rst:206:            "type": "sqlite",
+./docs/source/agent-framework/historian-agents/historian-framework.rst:208:                "database": "~/.volttron/data/platform.historian.sqlite"
+./docs/source/agent-framework/historian-agents/sql-historian/sql-historian.rst:96:        "agentid": "sqlhistorian-sqlite",
+./docs/source/agent-framework/historian-agents/sql-historian/sql-historian.rst:98:            "type": "sqlite",
+./docs/source/agent-framework/historian-agents/sql-historian/sql-historian.rst:100:                "database": "data/historian.sqlite"
+./docs/source/agent-framework/operations-agents/topic-watcher/topic-watcher-agent.rst:18:    pip install sqlite3
+./docs/source/developing-volttron/jupyter/jupyter-notebooks.rst:67:    $ sudo apt-get install sqlite3
+./docs/source/developing-volttron/developing-agents/writing-agent-tests.rst:237:        # This fixture cleans up a sqlite database in between each test run
+./docs/source/developing-volttron/developing-agents/writing-agent-tests.rst:238:        sqlite_conn = sqlite.connect("test.sqlite")
+./docs/source/developing-volttron/developing-agents/writing-agent-tests.rst:239:        cursor = sqlite_conn.cursor()
+./docs/source/developing-volttron/developing-agents/writing-agent-tests.rst:245:        sqlite.conn.close()
+./docs/source/developing-volttron/developing-agents/writing-agent-tests.rst:249:        sqlite_conn = sqlite.connect("test.sqlite")
+./docs/source/developing-volttron/developing-agents/writing-agent-tests.rst:250:        cursor = sqlite_conn.cursor()
+./docs/source/developing-volttron/developing-agents/writing-agent-tests.rst:477:    services/core/SQLHistorian/tests/test_sqlitehistorian.py::test_sqlite_timeout[volttron_3-volttron_instance0] ERROR             [ 50%]
+./docs/source/developing-volttron/developing-agents/writing-agent-tests.rst:478:    services/core/SQLHistorian/tests/test_sqlitehistorian.py::test_sqlite_timeout[volttron_3-volttron_instance1] PASSED            [100%]
+./docs/source/developing-volttron/developing-agents/writing-agent-tests.rst:481:    ________________________________ ERROR at setup of test_sqlite_timeout[volttron_3-volttron_instance0] ________________________________
+./docs/source/developing-volttron/developing-agents/writing-agent-tests.rst:483:    request = <SubRequest 'volttron_instance' for <Function test_sqlite_timeout[volttron_3-volttron_instance0]>>, kwargs = {}
+./docs/source/developing-volttron/developing-agents/writing-agent-tests.rst:505:    request    = <SubRequest 'volttron_instance' for <Function test_sqlite_timeout[volttron_3-volttron_instance0]>>
+./docs/source/developing-volttron/development-environment/pycharm/index.rst:87:    For instance: SQLHistorian agent and Forwarder agent both create a backup.sqlite
+./docs/source/deploying-volttron/multi-platform/datamover-historian-deployment.rst:112:        sqlite3 platform.historian.sqlite
+./docs/source/deploying-volttron/scalability/scalability.rst:97:-  Is the bottleneck the sqlite cache or the specific implementation
+./docs/source/deploying-volttron/single-machine.rst:180:      cp services/core/SQLHistorian/config.sqlite configs/
+./docs/source/deploying-volttron/single-machine.rst:187:   python scripts/install-agent.py -s services/core/SQLHistorian -c configs/config.sqlite --tag platform_historian
+./docs/source/deploying-volttron/single-machine.rst:324:    2020-10-27 11:50:25,052 (sqlhistorianagent-3.7.0 3551) volttron.platform.dbutils.sqlitefuncts DEBUG: Managing store - timestamp limit: None  GB size limit: None
+./deprecated/Ambient/README.md:94:3.  "database_file" - sqlite database file for weather data
+./deprecated/Ambient/README.md:95:    caching. Defaults to \"weather.sqlite\" in the agent\'s data
+./deprecated/Ambient/config:9:    "database_file": "weather.sqlite",
+./deprecated/Ambient/tests/test_ambient_agent.py:26:import sqlite3
+./deprecated/Ambient/tests/test_ambient_agent.py:174:                              "weather.sqlite"])
+./deprecated/Ambient/tests/test_ambient_agent.py:176:    sqlite_connection = sqlite3.connect(database_file)
+./deprecated/Ambient/tests/test_ambient_agent.py:177:    cursor = sqlite_connection.cursor()
+./deprecated/Ambient/tests/test_ambient_agent.py:182:    sqlite_connection.commit()
+./deprecated/Ambient/tests/test_ambient_agent.py:205:                                      ".agent-data", "weather.sqlite")
+./deprecated/Ambient/tests/test_ambient_agent.py:206:    sqlite_connection = sqlite3.connect(database_file_path)
+./deprecated/Ambient/tests/test_ambient_agent.py:207:    cursor = sqlite_connection.cursor()
+./deprecated/MongodbAggregateHistorian/README.md:49:    # If you are using a differnt historian(mysql, sqlite etc.) replace the
+./deprecated/Darksky/README.md:78:3.  \"database_file\" - sqlite database file for weather data caching. Defaults to \"weather.sqlite\" in the agent\'s 
+./deprecated/Darksky/README.md:93:        "database_file": "weather.sqlite",
+./deprecated/Darksky/config:4:    "database_file": "weather.sqlite",
+./deprecated/Darksky/tests/test_darksky.py:29:import sqlite3
+./deprecated/Darksky/tests/test_darksky.py:91:                              ".agent-data", "weather.sqlite"])
+./deprecated/Darksky/tests/test_darksky.py:93:    sqlite_connection = sqlite3.connect(database_file)
+./deprecated/Darksky/tests/test_darksky.py:94:    cursor = sqlite_connection.cursor()
+./deprecated/Darksky/tests/test_darksky.py:103:    sqlite_connection.commit()
+./deprecated/Darksky/tests/test_darksky.py:163:                              ".agent-data", "weather.sqlite"])
+./deprecated/Darksky/tests/test_darksky.py:164:    sqlite_connection = sqlite3.connect(database_file)
+./deprecated/Darksky/tests/test_darksky.py:165:    cursor = sqlite_connection.cursor()
+./deprecated/Darksky/tests/test_darksky.py:246:                              ".agent-data", "weather.sqlite"])
+./deprecated/Darksky/tests/test_darksky.py:247:    sqlite_connection = sqlite3.connect(database_file)
+./deprecated/Darksky/tests/test_darksky.py:248:    cursor = sqlite_connection.cursor()
+./deprecated/Darksky/tests/test_darksky.py:254:    sqlite_connection.commit()
+./deprecated/Darksky/tests/test_darksky.py:272:    sqlite_connection.commit()
+./deprecated/Darksky/tests/test_darksky.py:308:                              ".agent-data", "weather.sqlite"])
+./deprecated/Darksky/tests/test_darksky.py:309:    sqlite_connection = sqlite3.connect(database_file)
+./deprecated/Darksky/tests/test_darksky.py:310:    cursor = sqlite_connection.cursor()
+./env/lib64/python3.12/site-packages/zope/interface/common/tests/test_collections.py:68:        # sqlite3.Row claims ISequence but also misses ``index`` and
+./env/lib64/python3.12/site-packages/pymodbus/datastore/database/sql_datastore.py:32:        self.database = kwargs.get('database', 'sqlite:///pymodbus.db')
+./env/lib64/python3.12/site-packages/pip/_vendor/pygments/lexers/_mapping.py:470:    'SqliteConsoleLexer': ('pip._vendor.pygments.lexers.sql', 'sqlite3con', ('sqlite3',), ('*.sqlite3-console',), ('text/x-sqlite3-console',)),
+./env/lib/python3.12/site-packages/zope/interface/common/tests/test_collections.py:68:        # sqlite3.Row claims ISequence but also misses ``index`` and
+./env/lib/python3.12/site-packages/pymodbus/datastore/database/sql_datastore.py:32:        self.database = kwargs.get('database', 'sqlite:///pymodbus.db')
+./env/lib/python3.12/site-packages/pip/_vendor/pygments/lexers/_mapping.py:470:    'SqliteConsoleLexer': ('pip._vendor.pygments.lexers.sql', 'sqlite3con', ('sqlite3',), ('*.sqlite3-console',), ('text/x-sqlite3-console',)),
+./.gitlab-ci.yml:48:                - volttrontesting/platform/test_sqlite3_fix.py
+./volttron/platform/agent/base_tagging.py:520:         version of sqlite and mongodb tagging service.
+./volttron/platform/agent/base_tagging.py:547:         version of sqlite and mongodb tagging service.
+./volttron/platform/agent/base_tagging.py:1026:    from volttron.platform.dbutils.sqlitefuncts import  SqlLiteFuncts
+./volttron/platform/agent/utils.py:794:def fix_sqlite3_datetime(sql=None):
+./volttron/platform/agent/utils.py:806:        import sqlite3 as sql
+./volttron/platform/agent/base_weather.py:28:import sqlite3
+./volttron/platform/agent/base_weather.py:34:from volttron.platform.agent.utils import fix_sqlite3_datetime, \
+./volttron/platform/agent/base_weather.py:84:# Register a better datetime parser in sqlite3.
+./volttron/platform/agent/base_weather.py:85:fix_sqlite3_datetime()
+./volttron/platform/agent/base_weather.py:94:                 database_file=os.path.join(AGENT_DATA_DIR, "weather.sqlite"),
+./volttron/platform/agent/base_weather.py:123:                    "database_file": "weather.sqlite",
+./volttron/platform/agent/base_weather.py:418:            except sqlite3.OperationalError as error:
+./volttron/platform/agent/base_weather.py:1219:        :param database_file: path sqlite file to use for cache
+./volttron/platform/agent/base_weather.py:1222:        :param max_size_gb: maximum size in gigabytes of the sqlite database
+./volttron/platform/agent/base_weather.py:1226:        to the sqlite object, else false (see
+./volttron/platform/agent/base_weather.py:1227:        https://docs.python.org/3/library/sqlite3.html)
+./volttron/platform/agent/base_weather.py:1234:        self._sqlite_conn = None
+./volttron/platform/agent/base_weather.py:1245:        to the sqlite object, else false (see
+./volttron/platform/agent/base_weather.py:1246:        https://docs.python.org/3/library/sqlite3.html)
+./volttron/platform/agent/base_weather.py:1250:        self._sqlite_conn = sqlite3.connect(
+./volttron/platform/agent/base_weather.py:1252:            detect_types=sqlite3.PARSE_DECLTYPES | sqlite3.PARSE_COLNAMES,
+./volttron/platform/agent/base_weather.py:1254:        _log.info("connected to database, sqlite version: {}".format(
+./volttron/platform/agent/base_weather.py:1255:            sqlite3.version))
+./volttron/platform/agent/base_weather.py:1257:        cursor = self._sqlite_conn.cursor()
+./volttron/platform/agent/base_weather.py:1271:        cursor = self._sqlite_conn.cursor()
+./volttron/platform/agent/base_weather.py:1275:                self._sqlite_conn.commit()
+./volttron/platform/agent/base_weather.py:1277:            except sqlite3.OperationalError as o:
+./volttron/platform/agent/base_weather.py:1300:                self._sqlite_conn.commit()
+./volttron/platform/agent/base_weather.py:1301:            except sqlite3.OperationalError as o:
+./volttron/platform/agent/base_weather.py:1305:            except sqlite3.Error as err:
+./volttron/platform/agent/base_weather.py:1327:        cursor = self._sqlite_conn.cursor()
+./volttron/platform/agent/base_weather.py:1336:                self._sqlite_conn.commit()
+./volttron/platform/agent/base_weather.py:1350:                    self._sqlite_conn.commit()
+./volttron/platform/agent/base_weather.py:1365:            cursor = self._sqlite_conn.cursor()
+./volttron/platform/agent/base_weather.py:1371:                self._sqlite_conn.commit()
+./volttron/platform/agent/base_weather.py:1390:            cursor = self._sqlite_conn.cursor()
+./volttron/platform/agent/base_weather.py:1397:            cursor = self._sqlite_conn.cursor()
+./volttron/platform/agent/base_weather.py:1402:            self._sqlite_conn.commit()
+./volttron/platform/agent/base_weather.py:1405:        except (AttributeError, sqlite3.Error) as error:
+./volttron/platform/agent/base_weather.py:1418:        cursor = self._sqlite_conn.cursor()
+./volttron/platform/agent/base_weather.py:1449:        cursor = self._sqlite_conn.cursor()
+./volttron/platform/agent/base_weather.py:1484:    #     cursor = self._sqlite_conn.cursor()
+./volttron/platform/agent/base_weather.py:1505:        cursor = self._sqlite_conn.cursor()
+./volttron/platform/agent/base_weather.py:1521:        self._sqlite_conn.commit()
+./volttron/platform/agent/base_weather.py:1552:            cursor = self._sqlite_conn.cursor()
+./volttron/platform/agent/base_weather.py:1606:        """Close the sqlite database connection when the agent stops"""
+./volttron/platform/agent/base_weather.py:1607:        self._sqlite_conn.close()
+./volttron/platform/agent/base_weather.py:1608:        self._sqlite_conn = None
+./volttron/platform/agent/base_weather.py:1611:# Code reimplemented from https://github.com/gilesbrown/gsqlite3
+./volttron/platform/agent/base_historian.py:211:import sqlite3
+./volttron/platform/agent/base_historian.py:223:    fix_sqlite3_datetime, get_aware_utc_now, parse_timestamp_string
+./volttron/platform/agent/base_historian.py:266:# Register a better datetime parser in sqlite3.
+./volttron/platform/agent/base_historian.py:267:fix_sqlite3_datetime()
+./volttron/platform/agent/base_historian.py:1525:                    except sqlite3.IntegrityError as e:
+./volttron/platform/agent/base_historian.py:1529:                        _log.warning(f"sqlite3.Integrity error -- {e}")
+./volttron/platform/agent/base_historian.py:1541:                    except sqlite3.IntegrityError as e:
+./volttron/platform/agent/base_historian.py:1545:                        _log.warning(f"sqlite3.Integrity error -- {e}")
+./volttron/platform/agent/base_historian.py:1745:            backup_db = os.path.join(os.getcwd(), os.path.basename(os.getcwd()) + ".agent-data", 'backup.sqlite')
+./volttron/platform/agent/base_historian.py:1748:            backup_db = os.path.join(os.getcwd(), 'backup.sqlite')
+./volttron/platform/agent/base_historian.py:1752:        self._connection = sqlite3.connect(
+./volttron/platform/agent/base_historian.py:1754:            detect_types=sqlite3.PARSE_DECLTYPES | sqlite3.PARSE_COLNAMES,
+./volttron/platform/agent/base_historian.py:1765:        c.execute("SELECT name FROM sqlite_master WHERE type='table' "
+./volttron/platform/agent/base_historian.py:1820:        c.execute("SELECT name FROM sqlite_master WHERE type='table' "
+./volttron/platform/agent/base_historian.py:1835:        c.execute("SELECT name FROM sqlite_master WHERE type='table' "
+./volttron/platform/agent/base_historian.py:1850:        c.execute("SELECT name FROM sqlite_master WHERE type='table' "
+./volttron/platform/agent/base_historian.py:1869:# Code reimplemented from https://github.com/gilesbrown/gsqlite3
+./volttron/platform/upgrade/upgrade_volttron.py:30:from . import move_sqlite_files
+./volttron/platform/upgrade/upgrade_volttron.py:38:    # Moves backup cache of historian (backup.sqlite files) into corresponding agent-data directory so that
+./volttron/platform/upgrade/upgrade_volttron.py:39:    # historian agents other than sqlitehistorian, can be upgraded to latest version using
+./volttron/platform/upgrade/upgrade_volttron.py:42:    # If using sqlite historian manually backup and restore sqlite historian's db before upgrading to historian version
+./volttron/platform/upgrade/upgrade_volttron.py:44:    move_sqlite_files.main()
+./volttron/platform/upgrade/move_sqlite_files.py:49:    # pattern example - (/vhome/agents/uuid/agentname-version/)(backup.sqlite)
+./volttron/platform/upgrade/move_sqlite_files.py:50:    # pattern example - (vhome/agents/uuid/agentname-version/)(data/subdir/sqlitehistoriandb.sqlite)
+./volttron/platform/upgrade/move_sqlite_files.py:53:    # Look for all .sqlite files in installed agents
+./volttron/platform/upgrade/move_sqlite_files.py:54:    print(f"Attempting to move backup.sqlite files in {install_dir} into corresponding agent-data directory")
+./volttron/platform/upgrade/move_sqlite_files.py:55:    # currently this is only used for backup.sqlite
+./volttron/platform/upgrade/move_sqlite_files.py:56:    # In 9.0 we could use the same code for *.sqlite files
+./volttron/platform/upgrade/move_sqlite_files.py:57:    # for example ones created by sqlitetagging, topic watcher, weather etc. when we make agent-data folder default
+./volttron/platform/upgrade/move_sqlite_files.py:59:    glob_path = str(install_dir.joinpath("**/backup.sqlite"))
+./volttron/platform/upgrade/move_sqlite_files.py:60:    for sqlite_file in glob.glob(glob_path, recursive=True):
+./volttron/platform/upgrade/move_sqlite_files.py:61:        result = re_pattern.match(sqlite_file).groups()
+./volttron/platform/upgrade/move_sqlite_files.py:77:    """Moves backup cache of historian (backup.sqlite files) into corresponding agent-data directory"""
+./volttron/platform/upgrade/move_sqlite_files.py:88:          "If using using SQLite historian please back up and restore sqlite historian's db manually")
+./volttron/platform/dbutils/sqlitefuncts.py:28:import sqlite3
+./volttron/platform/dbutils/sqlitefuncts.py:40:from volttron.platform.agent.utils import fix_sqlite3_datetime
+./volttron/platform/dbutils/sqlitefuncts.py:45:# Make sure sqlite3 datetime adapters are updated.
+./volttron/platform/dbutils/sqlitefuncts.py:46:fix_sqlite3_datetime()
+./volttron/platform/dbutils/sqlitefuncts.py:61:            "initializing sqlitefuncts in thread {}".format(thread_name))
+./volttron/platform/dbutils/sqlitefuncts.py:87:            connect_params['detect_types'] = sqlite3.PARSE_DECLTYPES | sqlite3.PARSE_COLNAMES
+./volttron/platform/dbutils/sqlitefuncts.py:103:        _log.debug("In sqlitefuncts connect params {}".format(connect_params))
+./volttron/platform/dbutils/sqlitefuncts.py:104:        super(SqlLiteFuncts, self).__init__('sqlite3', **connect_params)
+./volttron/platform/dbutils/sqlitefuncts.py:118:        rows = self.select(f"SELECT name FROM sqlite_master WHERE type='table' AND name='{self.data_table}';")
+./volttron/platform/dbutils/sqlitefuncts.py:202:        # need to get converted to UTC since sqlite3 only store naive timestamp
+./volttron/platform/dbutils/sqlitefuncts.py:388:        except sqlite3.Error as e:
+./volttron/platform/dbutils/sqlitefuncts.py:406:        except sqlite3.Error as e:
+./volttron/platform/dbutils/sqlitefuncts.py:425:            conn = sqlite3.connect(self.__database, detect_types=sqlite3.PARSE_DECLTYPES | sqlite3.PARSE_COLNAMES)
+./volttron/platform/dbutils/sqlitefuncts.py:428:                _log.error("Unable to connect to sqlite database {} ".format(self.__database))
+./volttron/platform/dbutils/sqlitefuncts.py:514:        # need to get converted to UTC since sqlite3 only store naive timestamp
+./volttron/platform/dbutils/sqlitefuncts.py:547:        Get a query condition syntax tree and generate sqlite query to query
+./volttron/platform/dbutils/sqlitefuncts.py:558:        # Example output sqlite query
+./volttron/platform/dbutils/sqlitefuncts.py:581:        :return: sqlite query
+./volttron/platform/dbutils/sqlitefuncts.py:618:        _log.debug("Returning sqlite query condition {}".format(query))
+./volttron/platform/dbutils/sqlitefuncts.py:624:        Get a query condition syntax tree and generate sqlite query to query
+./volttron/platform/dbutils/sqlitefuncts.py:653:        :return: sqlite query
+./volttron/platform/dbutils/sqlitefuncts.py:657:        # Instead of using sqlite LIKE operator we use python regular expression and sqlite REGEXP operator
+./volttron/platform/dbutils/sqlitefuncts.py:701:        recursively. In sqlite syntax:
+./volttron/platform/dbutils/sqlitefuncts.py:757:        "database": '/tmp/tmpgLzWr3/historian.sqlite'
+./volttron/platform/dbutils/basedb.py:30:import sqlite3
+./volttron/platform/dbutils/basedb.py:70:    - :py:class:`volttron.platform.dbutils.sqlitefuncts.SqlLiteFuncts`
+./volttron/platform/dbutils/basedb.py:378:            except sqlite3.OperationalError as e:
+./volttron/platform/dbutils/basedb.py:382:                               "default timeout period. If you are using sqlite for frequent reads and write, please "
+./volttron/platform/instance_setup.py:828:    datafile = 'platform.historian.sqlite'
+./volttron/platform/instance_setup.py:831:            'type': 'sqlite',
+./services/ops/TopicWatcher/tests/test_topic_watcher.py:26:import sqlite3
+./services/ops/TopicWatcher/tests/test_topic_watcher.py:69:                               'alert_log.sqlite')
+./services/ops/TopicWatcher/tests/test_topic_watcher.py:73:                               'alert_log.sqlite')
+./services/ops/TopicWatcher/tests/test_topic_watcher.py:76:    db_connection = sqlite3.connect(
+./services/ops/TopicWatcher/tests/test_topic_watcher.py:78:        detect_types=sqlite3.PARSE_DECLTYPES | sqlite3.PARSE_COLNAMES)
+./services/ops/TopicWatcher/topic_watcher/agent.py:30:import sqlite3
+./services/ops/TopicWatcher/topic_watcher/agent.py:140:        self._connection = sqlite3.connect(
+./services/ops/TopicWatcher/topic_watcher/agent.py:141:            os.path.join(db_dir, 'alert_log.sqlite'),
+./services/ops/TopicWatcher/topic_watcher/agent.py:142:            detect_types=sqlite3.PARSE_DECLTYPES | sqlite3.PARSE_COLNAMES)
+./services/contrib/FactsServiceAgent/facts_service/agent.py:30:import sqlite3
+./services/contrib/FactsServiceAgent/facts_service/agent.py:241:            except sqlite3.Error as e:
+./services/contrib/FactsServiceAgent/facts_service/agent.py:285:            self._db_connection = sqlite3.connect(self._db_path)
+./services/contrib/FactsServiceAgent/tests/test_agent.py:8:import sqlite3
+./services/contrib/FactsServiceAgent/tests/test_agent.py:347:            "SELECT name FROM sqlite_master WHERE type='table' "
+./services/contrib/FactsServiceAgent/tests/test_agent.py:699:            sqlite3.connect(':memory:')
+./services/contrib/FactsServiceAgent/tests/test_agent.py:831:        assert isinstance(agent._db_connection, sqlite3.Connection)
+./services/contrib/FactsServiceAgent/tests/test_agent.py:844:            'facts_service.agent.sqlite3.connect',
+./services/contrib/FactsServiceAgent/tests/test_agent.py:845:            side_effect=sqlite3.DatabaseError
+./services/contrib/MessageDebuggerAgent/messagedebugger/agent.py:91:                                   db_path=config.get('db_path', '$VOLTTRON_HOME/data/volttron_messages.sqlite'),
+./services/contrib/MessageDebuggerAgent/messagedebugger/agent.py:493:                _log.debug('Creating sqlite database directory {}'.format(database_dir))
+./services/contrib/MessageDebuggerAgent/messagedebugger/agent.py:495:            engine_path = 'sqlite:///' + database_path
+./services/contrib/MessageDebuggerAgent/messagedebugger/agent.py:496:            _log.debug('Connecting to sqlite database {}'.format(engine_path))
+./services/contrib/MessageDebuggerAgent/tests/sqlalchemy_dry_run.py:16:def sqlite_helloworld():
+./services/contrib/MessageDebuggerAgent/tests/sqlalchemy_dry_run.py:17:    path = os.path.expandvars('$VOLTTRON_HOME/data/test_db.sqlite')
+./services/contrib/MessageDebuggerAgent/tests/sqlalchemy_dry_run.py:18:    engine = create_engine('sqlite:///' + path).connect()
+./services/contrib/MessageDebuggerAgent/tests/sqlalchemy_dry_run.py:33:    sqlite_helloworld()
+./services/contrib/MessageDebuggerAgent/tests/test_message_debugging.py:44:    "db_path": "$VOLTTRON_HOME/data/messagedebugger.sqlite"
+./services/contrib/MessageDebuggerAgent/messagedebugger.config:8:    "db_path": "$VOLTTRON_HOME/data/messagedebugger.sqlite"
+./services/unsupported/OpenADRVenAgent/openadrven/agent.py:263:                db_path:                Pathname of the agent's sqlite database.
+./services/unsupported/OpenADRVenAgent/openadrven/agent.py:1664:                    _log.debug('Creating sqlite database directory {}'.format(database_dir))
+./services/unsupported/OpenADRVenAgent/openadrven/agent.py:1666:                engine_path = 'sqlite:///' + self.db_path
+./services/unsupported/OpenADRVenAgent/openadrven/agent.py:1667:                _log.debug('Connecting to sqlite database {}'.format(engine_path))
+./services/unsupported/OpenADRVenAgent/openadrven/agent.py:1672:                error_msg = 'Unable to open sqlite database named {}: {}'.format(self.db_path, err)
+./services/core/DataMover/tests/test_datamover.py:48:sqlite_config = {
+./services/core/DataMover/tests/test_datamover.py:50:        "type": "sqlite",
+./services/core/DataMover/tests/test_datamover.py:52:            "database": 'test.sqlite'
+./services/core/DataMover/tests/test_datamover.py:102:    global sqlite_config
+./services/core/DataMover/tests/test_datamover.py:107:        config_file=sqlite_config,
+./services/core/DataMover/tests/test_datamover.py:110:    print("sqlite historian agent id: ", agent_uuid)
+./services/core/SQLAggregateHistorian/README.md:45:    # If you are using a differnt historian(sqlite3, mongo etc.) replace the
+./services/core/SQLAggregateHistorian/config:3:        "type": "sqlite",
+./services/core/SQLAggregateHistorian/config:5:            "database": "test.sqlite",
+./services/core/SQLiteTaggingService/sqlite/tagging.py:29:from volttron.platform.agent.utils import fix_sqlite3_datetime
+./services/core/SQLiteTaggingService/sqlite/tagging.py:37:from volttron.platform.dbutils.sqlitefuncts import SqlLiteFuncts
+./services/core/SQLiteTaggingService/sqlite/tagging.py:50:# Register a better datetime parser in sqlite3.
+./services/core/SQLiteTaggingService/sqlite/tagging.py:51:fix_sqlite3_datetime()
+./services/core/SQLiteTaggingService/sqlite/tagging.py:113:        self.sqlite_utils = SqlLiteFuncts(self.connection['params'], None)
+./services/core/SQLiteTaggingService/sqlite/tagging.py:123:        _log.debug("Setup of sqlite tagging agent")
+./services/core/SQLiteTaggingService/sqlite/tagging.py:127:            stmt = "SELECT name FROM sqlite_master " \
+./services/core/SQLiteTaggingService/sqlite/tagging.py:129:            name_list = self.sqlite_utils.select(stmt, None, fetch_all=True)
+./services/core/SQLiteTaggingService/sqlite/tagging.py:189:        cursor = self.sqlite_utils.select(
+./services/core/SQLiteTaggingService/sqlite/tagging.py:197:        cursor = self.sqlite_utils.select(
+./services/core/SQLiteTaggingService/sqlite/tagging.py:205:        self.sqlite_utils.execute_stmt("CREATE TABLE {}"
+./services/core/SQLiteTaggingService/sqlite/tagging.py:215:        self.sqlite_utils.execute_many(
+./services/core/SQLiteTaggingService/sqlite/tagging.py:219:        self.sqlite_utils.commit()
+./services/core/SQLiteTaggingService/sqlite/tagging.py:224:        self.sqlite_utils.execute_stmt(
+./services/core/SQLiteTaggingService/sqlite/tagging.py:236:        self.sqlite_utils.execute_many(
+./services/core/SQLiteTaggingService/sqlite/tagging.py:240:        self.sqlite_utils.commit()
+./services/core/SQLiteTaggingService/sqlite/tagging.py:245:        self.sqlite_utils.execute_stmt(
+./services/core/SQLiteTaggingService/sqlite/tagging.py:256:        self.sqlite_utils.execute_many(
+./services/core/SQLiteTaggingService/sqlite/tagging.py:259:        self.sqlite_utils.commit()
+./services/core/SQLiteTaggingService/sqlite/tagging.py:264:        self.sqlite_utils.execute_stmt(
+./services/core/SQLiteTaggingService/sqlite/tagging.py:293:            self.sqlite_utils.execute_many(
+./services/core/SQLiteTaggingService/sqlite/tagging.py:296:            self.sqlite_utils.commit()
+./services/core/SQLiteTaggingService/sqlite/tagging.py:301:        self.sqlite_utils.execute_stmt(
+./services/core/SQLiteTaggingService/sqlite/tagging.py:307:        self.sqlite_utils.execute_stmt(
+./services/core/SQLiteTaggingService/sqlite/tagging.py:310:        self.sqlite_utils.commit()
+./services/core/SQLiteTaggingService/sqlite/tagging.py:344:        cursor = self.sqlite_utils.select(real_query, args, fetch_all=False)
+./services/core/SQLiteTaggingService/sqlite/tagging.py:399:            cursor = self.sqlite_utils.select(real_query, args,
+./services/core/SQLiteTaggingService/sqlite/tagging.py:458:            cursor = self.sqlite_utils.select(real_query, args,
+./services/core/SQLiteTaggingService/sqlite/tagging.py:522:            self.sqlite_utils.execute_many(
+./services/core/SQLiteTaggingService/sqlite/tagging.py:526:            self.sqlite_utils.commit()
+./services/core/SQLiteTaggingService/sqlite/tagging.py:532:        query = self.sqlite_utils.get_tagging_query_from_ast(
+./services/core/SQLiteTaggingService/sqlite/tagging.py:555:            cursor, conn = self.sqlite_utils.regex_select(real_query, None,
+./services/core/SQLiteTaggingService/sqlite/tagging.py:559:            self.sqlite_utils.set_cache(-4000)
+./services/core/SQLiteTaggingService/sqlite/tagging.py:560:            cursor = self.sqlite_utils.select(real_query, fetch_all=False)
+./services/core/SQLiteTaggingService/README.md:6:values. The SQLite tagging services stores the tags in a sqlite3
+./services/core/SQLiteTaggingService/README.md:29:    historian to use sqlite or any specific database. It does not
+./services/core/SQLiteTaggingService/README.md:41:    of sqlite.
+./services/core/SQLiteTaggingService/README.md:53:    # sqlite connection parameters
+./services/core/SQLiteTaggingService/README.md:55:        "type": "sqlite",
+./services/core/SQLiteTaggingService/README.md:57:            "database": "~/.volttron/data/volttron.tags.sqlite"
+./services/core/VolttronCentralPlatform/tests/test_platform_agent_rpc.py:40:        "type": "sqlite",
+./services/core/VolttronCentralPlatform/tests/test_platform_agent_rpc.py:42:            "database": "{volttron_home}/data/platform.historian.sqlite"
+./services/core/VolttronCentralPlatform/tests/test_platform_agent_rpc.py:57:    Creates a single instance of VOLTTRON with a VOLTTRON Central Platform, a listener agent, and a sqlite historian
+./services/core/VolttronCentralPlatform/tests/test_platform_agent_rpc.py:68:    # historian_config['connection']['params']['database'] = vcp.volttron_home + "/data/platform.historian.sqlite"
+./services/core/WeatherDotGov/README.md:23:1.  \"database_file\" - sqlite database file for weather data caching.
+./services/core/WeatherDotGov/README.md:24:    Defaults to \"weather.sqlite\" in the agent\'s data directory
+./services/core/WeatherDotGov/README.md:46:        "database_file": "weather.sqlite",
+./services/core/WeatherDotGov/config:2:    "database_file": "weather.sqlite",
+./services/core/WeatherDotGov/tests/test_weatherdotgov.py:30:import sqlite3
+./services/core/WeatherDotGov/tests/test_weatherdotgov.py:68:                              ".agent-data", "weather.sqlite"])
+./services/core/WeatherDotGov/tests/test_weatherdotgov.py:70:    sqlite_connection = sqlite3.connect(database_file)
+./services/core/WeatherDotGov/tests/test_weatherdotgov.py:71:    cursor = sqlite_connection.cursor()
+./services/core/WeatherDotGov/tests/test_weatherdotgov.py:76:        sqlite_connection.commit()
+./services/core/MongodbTaggingService/scripts/insert_test_data.py:4:import sqlite3
+./services/core/MongodbTaggingService/scripts/insert_test_data.py:27:sqlite_connection = sqlite3.connect(
+./services/core/MongodbTaggingService/scripts/insert_test_data.py:28:    "/home/velo/tags_test2.sqlite",
+./services/core/MongodbTaggingService/scripts/insert_test_data.py:29:    detect_types = sqlite3.PARSE_DECLTYPES | sqlite3.PARSE_COLNAMES
+./services/core/MongodbTaggingService/scripts/insert_test_data.py:31:sqlite_connection.execute("PRAGMA CACHE_SIZE=-2000")
+./services/core/MongodbTaggingService/scripts/insert_test_data.py:34:sqlite_connection.execute("CREATE TABLE IF NOT EXISTS " + tags_table +
+./services/core/MongodbTaggingService/scripts/insert_test_data.py:40:sqlite_connection.execute("CREATE INDEX IF NOT EXISTS idx_topic_prefix ON " +
+./services/core/MongodbTaggingService/scripts/insert_test_data.py:42:sqlite_connection.execute("CREATE INDEX IF NOT EXISTS idx_tag ON " +
+./services/core/MongodbTaggingService/scripts/insert_test_data.py:44:sqlite_bulk = []
+./services/core/MongodbTaggingService/scripts/insert_test_data.py:45:sqlite_batch_size = 0
+./services/core/MongodbTaggingService/scripts/insert_test_data.py:46:sqlite_max_batch_size = 100
+./services/core/MongodbTaggingService/scripts/insert_test_data.py:130:    r2 = sqlite_insert(tags, execute_now)
+./services/core/MongodbTaggingService/scripts/insert_test_data.py:159:def sqlite_insert(tags, execute_now=False):
+./services/core/MongodbTaggingService/scripts/insert_test_data.py:160:    global sqlite_bulk, sqlite_batch_size, sqlite_max_batch_size
+./services/core/MongodbTaggingService/scripts/insert_test_data.py:170:            sqlite_bulk.append((topic_prefix, k, v))
+./services/core/MongodbTaggingService/scripts/insert_test_data.py:172:        # print sqlite_bulk
+./services/core/MongodbTaggingService/scripts/insert_test_data.py:173:        sqlite_batch_size += len(tags)
+./services/core/MongodbTaggingService/scripts/insert_test_data.py:176:    if sqlite_batch_size > sqlite_max_batch_size or execute_now:
+./services/core/MongodbTaggingService/scripts/insert_test_data.py:177:        sqlite_connection.executemany("insert into " +
+./services/core/MongodbTaggingService/scripts/insert_test_data.py:180:                                      sqlite_bulk)
+./services/core/MongodbTaggingService/scripts/insert_test_data.py:181:        sqlite_connection.commit()
+./services/core/MongodbTaggingService/scripts/insert_test_data.py:182:        sqlite_bulk = []
+./services/core/MongodbTaggingService/scripts/insert_test_data.py:183:        sqlite_batch_size = 0
+./services/core/MongodbTaggingService/scripts/insert_test_data.py:187:    sqlite_connection.close()
+./services/core/MongodbTaggingService/scripts/insert_test_data.py:212:def test_sqlite_tags():
+./services/core/MongodbTaggingService/scripts/insert_test_data.py:214:    tags_cursor = sqlite_connection.execute(
+./services/core/MongodbTaggingService/scripts/insert_test_data.py:234:    print("Time taken by sqlite for result: {}".format(
+./services/core/ForwardHistorian/tests/test_forward_historian.py:53:sqlite_config = {
+./services/core/ForwardHistorian/tests/test_forward_historian.py:55:        "type": "sqlite",
+./services/core/ForwardHistorian/tests/test_forward_historian.py:57:            "database": 'test.sqlite'
+./services/core/ForwardHistorian/tests/test_forward_historian.py:111:    global sqlite_config
+./services/core/ForwardHistorian/tests/test_forward_historian.py:117:        config_file=sqlite_config,
+./services/core/ForwardHistorian/tests/test_forward_historian.py:120:    print("sqlite historian agent id: ", agent_uuid)
+./services/core/SQLHistorian/README.md:15:   sql historian (ex. mysql, sqlite, etc.) and params containing the connection 
+./services/core/SQLHistorian/README.md:28:            # type should be sqlite
+./services/core/SQLHistorian/README.md:29:            "type": "sqlite",
+./services/core/SQLHistorian/README.md:31:                "database": "data/historian.sqlite",
+./services/core/SQLHistorian/README.md:125:            # type should be sqlite
+./services/core/SQLHistorian/README.md:126:            "type": "sqlite",
+./services/core/SQLHistorian/README.md:128:                "database": "data/historian.sqlite",
+./services/core/SQLHistorian/README.md:250:scripts/core/make-sqlite-historian.sh for an example of how this is
+./services/core/SQLHistorian/config.sqlite:3:        "type": "sqlite",
+./services/core/SQLHistorian/config.sqlite:5:            "database": "historian_test.sqlite"
+./services/core/SQLHistorian/tests/test_sqlitehistorian.py:28:import sqlite3
+./services/core/SQLHistorian/tests/test_sqlitehistorian.py:44:sqlite_platform = {
+./services/core/SQLHistorian/tests/test_sqlitehistorian.py:46:        "type": "sqlite",
+./services/core/SQLHistorian/tests/test_sqlitehistorian.py:48:            "database": 'test.sqlite'
+./services/core/SQLHistorian/tests/test_sqlitehistorian.py:54:config_path = os.path.join(get_services_core("SQLHistorian"), "config.sqlite")
+./services/core/SQLHistorian/tests/test_sqlitehistorian.py:81:def setup_sqlite(connection_params):
+./services/core/SQLHistorian/tests/test_sqlitehistorian.py:82:    print("setup sqlite")
+./services/core/SQLHistorian/tests/test_sqlitehistorian.py:84:    print("connecting to sqlite path " + database_path)
+./services/core/SQLHistorian/tests/test_sqlitehistorian.py:85:    db_connection = sqlite3.connect(database_path)
+./services/core/SQLHistorian/tests/test_sqlitehistorian.py:86:    print("successfully connected to sqlite")
+./services/core/SQLHistorian/tests/test_sqlitehistorian.py:135:# @pytest.fixture(params=[sqlite_platform, default_config])
+./services/core/SQLHistorian/tests/test_sqlitehistorian.py:156:@pytest.mark.parametrize("config", [sqlite_platform, default_config])
+./services/core/SQLHistorian/tests/test_sqlitehistorian.py:157:def test_sqlite_timeout(request, publish_agent, volttron_instance, config):
+./services/core/SQLHistorian/tests/test_sqlitehistorian.py:170:    db_connection, microsecond_precision = setup_sqlite(config['connection']['params'])
+./services/core/SQLHistorian/tests/test_sqlitehistorian.py:172:    print("\n** test_sqlite_timeout for {}**".format(request.keywords.node.name))
+./services/core/SQLHistorian/tests/test_sqlitehistorian.py:185:                                                     vip_identity='sqlite.historian')
+./services/core/SQLHistorian/tests/test_sqlitehistorian.py:218:        result = publish_agent.vip.rpc.call('sqlite.historian', 'query',
+./services/core/SQLHistorian/tests/test_sqlitehistorian_unit.py:13:CACHE_NAME = str(Path(agent_data_dir).joinpath("backup.sqlite"))
+./services/core/SQLHistorian/tests/test_sqlitehistorian_unit.py:14:HISTORIAN_DB = "./data/historian.sqlite"
+./services/core/SQLHistorian/tests/test_sqlitehistorian_unit.py:70:    config = {"connection": {"type": "sqlite", "params": {"database": HISTORIAN_DB}}}
+./services/core/SQLHistorian/tests/test_sqlitehistorian_unit.py:75:    # the backup database is an sqlite database with the name "backup.sqlite".
+./services/core/SQLHistorian/tests/test_sqlitehistorian_unit.py:77:    # also, delete the historian database for this test, which is an sqlite db in folder /data
+./services/core/SQLHistorian/tests/test_sqlitehistorian_unit.py:87:    output = subprocess.run(["sqlite3", db, query], text=True, capture_output=True)
+./services/core/SQLHistorian/sqlite-historian.agent:3:        "exec": "sqlite_historianagent-0.1-py2.7.egg --config \"%c\" --sub \"%s\" --pub \"%p\""
+./services/core/SQLHistorian/sqlite-historian.agent:5:    "agentid": "sqlite_historian",
+./services/core/SQLHistorian/sqlite-historian.agent:6:    "db": "~/.volttron/data/platform.historian.sqlite"
+./services/core/SQLHistorian/sqlhistorian/historian.py:89:     - :py:mod:`volttron.platform.dbutils.sqlitefuncts`
+./services/core/SQLHistorian/sqlhistorian/historian.py:104:          1. 'type' - describe the type of database (sqlite or mysql)
+./services/core/SQLHistorian/sqlhistorian/historian.py:128:        # This is because sqlite only supports sharing of connection within
+./services/core/SQLHistorian/config_device_data_filter.sqlite:3:        "type": "sqlite",
+./services/core/SQLHistorian/config_device_data_filter.sqlite:5:            "database": "historian_test.sqlite"
+./pytest.ini:62:        sqlitefuncts: level one integration tests for sqlitefuncts
+./volttron.egg-info/SOURCES.txt:102:volttron/platform/dbutils/sqlitefuncts.py
+./volttron.egg-info/SOURCES.txt:117:volttron/platform/upgrade/move_sqlite_files.py
+./examples/JupyterNotebooks/IEEE2030_5Collector.ipynb:75:    "import sqlite3\n",
+./examples/JupyterNotebooks/IEEE2030_5Collector.ipynb:452:    "import sqlite3\n",
+./examples/JupyterNotebooks/Aggregator.ipynb:73:    "import sqlite3\n",
+./examples/JupyterNotebooks/Aggregator.ipynb:245:    "    \"agentid\": \"sqlhistorian-sqlite\",\n",
+./examples/JupyterNotebooks/Aggregator.ipynb:247:    "        \"type\": \"sqlite\",\n",
+./examples/JupyterNotebooks/Aggregator.ipynb:249:    "            \"database\": \"{0}/historian.sqlite\"\n",
+./examples/JupyterNotebooks/Aggregator.ipynb:297:    "              id='sqlite_historian',\n",
+./examples/JupyterNotebooks/Aggregator.ipynb:299:    "              tag='sqlite_historian')\n",
+./examples/JupyterNotebooks/Aggregator.ipynb:338:    "import sqlite3\n",
+./examples/JupyterNotebooks/Aggregator.ipynb:374:    "if os.path.exists(data_dir + '/historian.sqlite'):\n",
+./examples/JupyterNotebooks/Aggregator.ipynb:375:    "    _sh('rm {0}'.format(data_dir + '/historian.sqlite'))\n",
+./examples/JupyterNotebooks/Aggregator.ipynb:408:    "_sh('volttron-ctl start --tag sqlite_historian')\n",
+./examples/JupyterNotebooks/Aggregator.ipynb:432:    "def run_sqlite_cmd(command_string):\n",
+./examples/JupyterNotebooks/Aggregator.ipynb:433:    "    _print_sh('sqlite3 {0} {1}'.format(data_dir + '/historian.sqlite', command_string))"
+./examples/JupyterNotebooks/Aggregator.ipynb:458:    "run_sqlite_cmd('\".schema\"')"
+./examples/JupyterNotebooks/Aggregator.ipynb:483:    "run_sqlite_cmd('\"SELECT * FROM topics_table;\"')"
+./examples/JupyterNotebooks/Aggregator.ipynb:512:    "sqlite_cmd = '''\"SELECT {0} FROM data_table {1} WHERE topics_table.topic_name = '{2}';\"'''.format(\n",
+./examples/JupyterNotebooks/Aggregator.ipynb:516:    "print('sqlite command: \\n{0}\\n'.format(sqlite_cmd))\n",
+./examples/JupyterNotebooks/Aggregator.ipynb:518:    "run_sqlite_cmd(sqlite_cmd)"
+./examples/JupyterNotebooks/Aggregator.ipynb:547:    "sqlite_cmd = '''SELECT {0} FROM data_table {1} WHERE topics_table.topic_name = '{2}';'''.format(\n",
+./examples/JupyterNotebooks/Aggregator.ipynb:551:    "print('sqlite command: \\n{0}\\n'.format(sqlite_cmd))\n",
+./examples/JupyterNotebooks/Aggregator.ipynb:558:    "conn = sqlite3.connect(data_dir + '/historian.sqlite')\n",
+./examples/JupyterNotebooks/Aggregator.ipynb:563:    "for row in c.execute(sqlite_cmd):\n",
+./examples/JupyterNotebooks/Observer.ipynb:76:    "import sqlite3\n",
+./examples/JupyterNotebooks/Observer.ipynb:331:    "    \"agentid\": \"sqlhistorian-sqlite\",\n",
+./examples/JupyterNotebooks/Observer.ipynb:333:    "        \"type\": \"sqlite\",\n",
+./examples/JupyterNotebooks/Observer.ipynb:335:    "            \"database\": \"{0}/historian.sqlite\"\n",
+./examples/JupyterNotebooks/Observer.ipynb:389:    "              id='sqlite_historian',\n",
+./examples/JupyterNotebooks/Observer.ipynb:391:    "              tag='sqlite_historian')\n",
+./examples/JupyterNotebooks/Observer.ipynb:468:    "_sh('volttron-ctl start --tag sqlite_historian')\n",
+./examples/JupyterNotebooks/Observer.ipynb:497:    "import sqlite3\n",
+./examples/JupyterNotebooks/Observer.ipynb:552:    "def run_sqlite_cmd(command_string):\n",
+./examples/JupyterNotebooks/Observer.ipynb:553:    "    _print_sh('sqlite3 {0} {1}'.format(data_dir + '/historian.sqlite', command_string))"
+./examples/JupyterNotebooks/Observer.ipynb:578:    "run_sqlite_cmd('\".schema\"')"
+./examples/JupyterNotebooks/Observer.ipynb:603:    "run_sqlite_cmd('\"SELECT * FROM topics_table;\"')"
+./examples/JupyterNotebooks/Observer.ipynb:635:    "sqlite_cmd = '''\"SELECT {0} FROM data_table {1} WHERE topics_table.topic_name = '{2}' AND data_table.ts > '{3}' AND data_table.ts < '{4}';\"'''.format(\n",
+./examples/JupyterNotebooks/Observer.ipynb:641:    "print('sqlite command: \\n{0}\\n'.format(sqlite_cmd))\n",
+./examples/JupyterNotebooks/Observer.ipynb:643:    "run_sqlite_cmd(sqlite_cmd)"
+./examples/JupyterNotebooks/Observer.ipynb:675:    "sqlite_cmd = '''SELECT {0} FROM data_table {1} WHERE topics_table.topic_name = '{2}' AND data_table.ts > '{3}' AND data_table.ts < '{4}';'''.format(\n",
+./examples/JupyterNotebooks/Observer.ipynb:681:    "print('sqlite command: \\n{0}\\n'.format(sqlite_cmd))\n",
+./examples/JupyterNotebooks/Observer.ipynb:688:    "conn = sqlite3.connect(data_dir + '/historian.sqlite')\n",
+./examples/JupyterNotebooks/Observer.ipynb:693:    "for row in c.execute(sqlite_cmd):\n",
+./examples/JupyterNotebooks/Observer.ipynb:1050:    "if os.path.exists(data_dir + '/historian.sqlite'):\n",
+./examples/JupyterNotebooks/Observer.ipynb:1051:    "    _sh('rm {0}'.format(data_dir + '/historian.sqlite'))"
+./examples/JupyterNotebooks/SimulationCollector.ipynb:73:    "import sqlite3\n",
+./examples/JupyterNotebooks/SimulationCollector.ipynb:522:    "import sqlite3\n",
+./examples/JupyterNotebooks/BacnetCollector.ipynb:73:    "import sqlite3\n",
+./examples/JupyterNotebooks/BacnetCollector.ipynb:589:    "import sqlite3\n",
+./examples/JupyterNotebooks/ChargePointCollector.ipynb:73:    "import sqlite3\n",
+./examples/JupyterNotebooks/ChargePointCollector.ipynb:538:    "import sqlite3\n",
+./examples/JupyterNotebooks/ReferenceAppAgent.ipynb:76:    "import sqlite3\n",
+./examples/JupyterNotebooks/ReferenceAppAgent.ipynb:272:    "    \"agentid\": \"sqlhistorian-sqlite\",\n",
+./examples/JupyterNotebooks/ReferenceAppAgent.ipynb:274:    "        \"type\": \"sqlite\",\n",
+./examples/JupyterNotebooks/ReferenceAppAgent.ipynb:276:    "            \"database\": \"{0}/data/platform.historian.sqlite\"\n",
+./examples/JupyterNotebooks/ReferenceAppAgent.ipynb:363:    "import sqlite3\n",
+./examples/default_install_scripts/install-sqlite-historian.sh:3:echo "installing sqlite historian"
+./examples/default_install_scripts/install-sqlite-historian.sh:5:  --config services/core/SQLHistorian/config.sqlite \
+./examples/default_install_scripts/install-sqlite-historian.sh:6:  --vip-identity sqlite.historian --start
+./scripts/tagging_scripts/insert_id_and_ref_tags.py:19:import sqlite3
+./scripts/tagging_scripts/insert_id_and_ref_tags.py:40:# set mongo, sqlite or both. If you need tags to be saved in mongodb you can
+./scripts/tagging_scripts/insert_id_and_ref_tags.py:41:#  set sqlite connection string as empty/None and vice-versa
+./scripts/tagging_scripts/insert_id_and_ref_tags.py:43:tags_db_sqlite = "/home/velo/tags_test3.sqlite"
+./scripts/tagging_scripts/insert_id_and_ref_tags.py:57:write_to_sqlite = False
+./scripts/tagging_scripts/insert_id_and_ref_tags.py:58:if tags_db_sqlite:
+./scripts/tagging_scripts/insert_id_and_ref_tags.py:59:    sqlite_connection = sqlite3.connect(
+./scripts/tagging_scripts/insert_id_and_ref_tags.py:60:        tags_db_sqlite,
+./scripts/tagging_scripts/insert_id_and_ref_tags.py:61:        detect_types = sqlite3.PARSE_DECLTYPES | sqlite3.PARSE_COLNAMES
+./scripts/tagging_scripts/insert_id_and_ref_tags.py:63:    sqlite_connection.execute("PRAGMA CACHE_SIZE=-2000")
+./scripts/tagging_scripts/insert_id_and_ref_tags.py:65:    sqlite_connection.execute("CREATE TABLE IF NOT EXISTS " + tags_table +
+./scripts/tagging_scripts/insert_id_and_ref_tags.py:71:    sqlite_connection.execute("CREATE INDEX IF NOT EXISTS idx_topic_prefix ON " +
+./scripts/tagging_scripts/insert_id_and_ref_tags.py:73:    sqlite_connection.execute("CREATE INDEX IF NOT EXISTS idx_tag ON " +
+./scripts/tagging_scripts/insert_id_and_ref_tags.py:75:    sqlite_bulk = []
+./scripts/tagging_scripts/insert_id_and_ref_tags.py:76:    sqlite_batch_size = 0
+./scripts/tagging_scripts/insert_id_and_ref_tags.py:77:    sqlite_max_batch_size = 100
+./scripts/tagging_scripts/insert_id_and_ref_tags.py:78:    write_to_sqlite = True
+./scripts/tagging_scripts/insert_id_and_ref_tags.py:147:    if write_to_sqlite:
+./scripts/tagging_scripts/insert_id_and_ref_tags.py:148:        r2 = sqlite_insert(tags, execute_now)
+./scripts/tagging_scripts/insert_id_and_ref_tags.py:178:def sqlite_insert(tags, execute_now=False):
+./scripts/tagging_scripts/insert_id_and_ref_tags.py:179:    global sqlite_bulk, sqlite_batch_size, sqlite_max_batch_size
+./scripts/tagging_scripts/insert_id_and_ref_tags.py:189:            sqlite_bulk.append((topic_prefix, k, v))
+./scripts/tagging_scripts/insert_id_and_ref_tags.py:190:        # print sqlite_bulk
+./scripts/tagging_scripts/insert_id_and_ref_tags.py:191:        sqlite_batch_size += len(tags)
+./scripts/tagging_scripts/insert_id_and_ref_tags.py:194:    if sqlite_batch_size > sqlite_max_batch_size or execute_now:
+./scripts/tagging_scripts/insert_id_and_ref_tags.py:196:        sqlite_connection.executemany("insert into " +
+./scripts/tagging_scripts/insert_id_and_ref_tags.py:199:                                      sqlite_bulk)
+./scripts/tagging_scripts/insert_id_and_ref_tags.py:200:        sqlite_connection.commit()
+./scripts/tagging_scripts/insert_id_and_ref_tags.py:201:        sqlite_bulk = []
+./scripts/tagging_scripts/insert_id_and_ref_tags.py:202:        sqlite_batch_size = 0
+./scripts/tagging_scripts/insert_id_and_ref_tags.py:206:    sqlite_connection.close()
+./scripts/historian-scripts/start-historian-sqlite.sh:9:export HIST_CONFIG="$HIST/config.sqlite.platform.historian"
+./scripts/historian-scripts/update_sqlite_historian_database.py:26:import sqlite3
+./scripts/historian-scripts/update_sqlite_historian_database.py:32:    db = sqlite3.connect(database_name)
+./scripts/historian-scripts/update_sqlite_historian_database.py:38:    #We do this because of a bug in the sqlite implementation in python
+./scripts/core/make-sqlite-historian.sh:3:export CONFIG=services/core/SQLHistorian/config.sqlite
+./scripts/core/make-sqlite-historian.sh:5:export TAG=sqlite
+./scripts/core/make-mongo-historian.sh:5:export TAG=sqlite
+./volttrontesting/services/historian/test_base_historian.py:30:import sqlite3
+./volttrontesting/services/historian/test_base_historian.py:53:        self.backup_sqlite = Path(self.agent_data_dir).joinpath("backup.sqlite")
+./volttrontesting/services/historian/test_base_historian.py:67:            print(f"Removing backup cache  {self.backup_sqlite}")
+./volttrontesting/services/historian/test_base_historian.py:68:            os.remove(str(self.backup_sqlite))
+./volttrontesting/services/historian/test_base_historian.py:87:        self.backup_sqlite = Path(self.agent_data_dir).joinpath("backup.sqlite")
+./volttrontesting/services/historian/test_base_historian.py:107:            print(f"Removing backup cache  {self.backup_sqlite}")
+./volttrontesting/services/historian/test_base_historian.py:108:            os.remove(str(self.backup_sqlite))
+./volttrontesting/services/historian/test_base_historian.py:281:        db_file = historian.backup_sqlite
+./volttrontesting/services/historian/test_base_historian.py:283:        db_connection = sqlite3.connect(str(db_file))
+./volttrontesting/services/historian/test_base_historian.py:524:        self.backup_sqlite = Path(self.agent_data_dir).joinpath("backup.sqlite")
+./volttrontesting/services/historian/test_base_historian.py:558:            print(f"Removing backup cache  {self.backup_sqlite}")
+./volttrontesting/services/historian/test_base_historian.py:559:            os.remove(str(self.backup_sqlite))
+./volttrontesting/services/historian/test_multiplatform.py:133:                       {"type": "sqlite",
+./volttrontesting/services/historian/test_multiplatform.py:136:                                        "/historian.sqlite"}},
+./volttrontesting/services/historian/test_multiplatform.py:149:                        {"type": "sqlite",
+./volttrontesting/services/historian/test_multiplatform.py:152:                                         "/historian2.sqlite"}},
+./volttrontesting/services/historian/test_multiplatform.py:241:                           {"type": "sqlite",
+./volttrontesting/services/historian/test_multiplatform.py:244:                                            "/historian.sqlite"}},
+./volttrontesting/services/historian/test_dbdriver.py:46:import sqlite3
+./volttrontesting/services/historian/test_dbdriver.py:53:from volttron.platform.dbutils.sqlitefuncts import SqlLiteFuncts
+./volttrontesting/services/historian/test_dbdriver.py:272:            params = {'database': '{}/test.sqlite'.format(tmpdir)}
+./volttrontesting/services/historian/test_dbdriver.py:274:                with contextlib.closing(sqlite3.connect(**params)) as connection, \
+./volttrontesting/services/historian/test_dbdriver.py:282:                            except sqlite3.OperationalError as exc:
+./volttrontesting/services/historian/test_historian.py:37: setup_sqlite). setup method should return a database connection object and
+./volttrontesting/services/historian/test_historian.py:63:import sqlite3
+./volttrontesting/services/historian/test_historian.py:156:sqlite_platform = {
+./volttrontesting/services/historian/test_historian.py:159:        "type": "sqlite",
+./volttrontesting/services/historian/test_historian.py:161:            "database": 'test.sqlite'
+./volttrontesting/services/historian/test_historian.py:321:def select_all_sqlite_tables(db_connection):
+./volttrontesting/services/historian/test_historian.py:325:        cursor.execute("SELECT name FROM sqlite_master WHERE type ='table' AND name NOT LIKE 'sqlite_%';")
+./volttrontesting/services/historian/test_historian.py:355:def setup_sqlite(connection_params, table_names, historian_version):
+./volttrontesting/services/historian/test_historian.py:356:    print("setup sqlite")
+./volttrontesting/services/historian/test_historian.py:358:    print("connecting to sqlite path " + database_path)
+./volttrontesting/services/historian/test_historian.py:359:    db_connection = sqlite3.connect(database_path)
+./volttrontesting/services/historian/test_historian.py:360:    print("successfully connected to sqlite")
+./volttrontesting/services/historian/test_historian.py:479:def cleanup_sqlite(db_connection, truncate_tables, drop_tables=False):
+./volttrontesting/services/historian/test_historian.py:480:    cleanup_sql(db_connection, truncate_tables, select_all_sqlite_tables, drop_tables)
+./volttrontesting/services/historian/test_historian.py:602:                        sqlite_platform,
+./volttrontesting/services/historian/test_historian.py:629:    if connection_type == 'sqlite':
+./volttrontesting/services/historian/test_historian.py:631:            volttron_instance.volttron_home + "/historian.sqlite"
+./volttrontesting/services/aggregate_historian/test_aggregate_historian.py:10:import sqlite3
+./volttrontesting/services/aggregate_historian/test_aggregate_historian.py:67:sqlite_aggregator = {
+./volttrontesting/services/aggregate_historian/test_aggregate_historian.py:71:        "type": "sqlite",
+./volttrontesting/services/aggregate_historian/test_aggregate_historian.py:73:            "database": 'test.sqlite',
+./volttrontesting/services/aggregate_historian/test_aggregate_historian.py:202:def setup_sqlite(connection_params, table_names):
+./volttrontesting/services/aggregate_historian/test_aggregate_historian.py:203:    print("setup sqlite")
+./volttrontesting/services/aggregate_historian/test_aggregate_historian.py:205:    print("connecting to sqlite path " + database_path)
+./volttrontesting/services/aggregate_historian/test_aggregate_historian.py:206:    db_connection = sqlite3.connect(database_path)
+./volttrontesting/services/aggregate_historian/test_aggregate_historian.py:207:    print("successfully connected to sqlite")
+./volttrontesting/services/aggregate_historian/test_aggregate_historian.py:208:    cleanup_sqlite(db_connection, None, drop_tables=True)
+./volttrontesting/services/aggregate_historian/test_aggregate_historian.py:252:def cleanup_sqlite(db_connection, truncate_tables, drop_tables=False):
+./volttrontesting/services/aggregate_historian/test_aggregate_historian.py:255:        cursor.execute("SELECT name FROM sqlite_master WHERE type ='table' AND name NOT LIKE 'sqlite_%';")
+./volttrontesting/services/aggregate_historian/test_aggregate_historian.py:408:                    sqlite_aggregator,
+./volttrontesting/services/aggregate_historian/test_aggregate_historian.py:417:    # Fix sqlite db path
+./volttrontesting/services/aggregate_historian/test_aggregate_historian.py:418:    # request.param = sqlite_aggregator
+./volttrontesting/services/aggregate_historian/test_aggregate_historian.py:421:    if connection_type == 'sqlite':
+./volttrontesting/services/aggregate_historian/test_aggregate_historian.py:423:            volttron_instance.volttron_home + "/historian.sqlite"
+./volttrontesting/services/aggregate_historian/test_aggregate_historian.py:513:        elif conn.get("type") == "sqlite":
+./volttrontesting/services/tagging/test_tagging.py:28:import sqlite3
+./volttrontesting/services/tagging/test_tagging.py:63:sqlite_config = {"connection": {"type": "sqlite",
+./volttrontesting/services/tagging/test_tagging.py:78:sqlite_historian = {
+./volttrontesting/services/tagging/test_tagging.py:80:    "connection": {"type": "sqlite"}}
+./volttrontesting/services/tagging/test_tagging.py:97:    sqlite_historian
+./volttrontesting/services/tagging/test_tagging.py:102:def setup_sqlite(config):
+./volttrontesting/services/tagging/test_tagging.py:103:    print("setup sqlite")
+./volttrontesting/services/tagging/test_tagging.py:106:    print("connecting to sqlite path " + database_path)
+./volttrontesting/services/tagging/test_tagging.py:107:    db_connection = sqlite3.connect(database_path)
+./volttrontesting/services/tagging/test_tagging.py:108:    print("successfully connected to sqlite")
+./volttrontesting/services/tagging/test_tagging.py:134:        except sqlite3.OperationalError as e:
+./volttrontesting/services/tagging/test_tagging.py:140:def cleanup_sqlite(db_connection, truncate_tables):
+./volttrontesting/services/tagging/test_tagging.py:176:                    sqlite_config,
+./volttrontesting/services/tagging/test_tagging.py:182:    if connection_type == 'sqlite':
+./volttrontesting/services/tagging/test_tagging.py:185:                          "/test_tagging.sqlite"
+./volttrontesting/services/tagging/test_tagging.py:222:    if connection_type == 'sqlite':
+./volttrontesting/services/tagging/test_tagging.py:223:        pytest.skip("sqlite init should fail only in case of unexpected "
+./volttrontesting/services/tagging/test_tagging.py:266:                           {"type": "sqlite",
+./volttrontesting/services/tagging/test_tagging.py:269:                                    "/test_tags_by_topic_no_metadata.sqlite"}}
+./volttrontesting/services/tagging/test_tagging.py:732:                           {"type": "sqlite",
+./volttrontesting/services/tagging/test_tagging.py:735:                                    "/test_update_topic_tags.sqlite"}}
+./volttrontesting/services/tagging/test_tagging.py:853:                           {"type": "sqlite",
+./volttrontesting/services/tagging/test_tagging.py:856:                                    "/test_tags_by_topic_no_metadata.sqlite"}}
+./volttrontesting/services/tagging/test_tagging.py:963:               {"type": "sqlite",
+./volttrontesting/services/tagging/test_tagging.py:966:                        "/test_tags_by_topic_with_metadata.sqlite"}}}
+./volttrontesting/services/tagging/test_tagging.py:1058:                           {"type": "sqlite",
+./volttrontesting/services/tagging/test_tagging.py:1061:                                    "/test_topic_by_tags_param_and_or.sqlite"}}
+./volttrontesting/services/tagging/test_tagging.py:1195:                           {"type": "sqlite",
+./volttrontesting/services/tagging/test_tagging.py:1198:                                    "/topic_by_tags_custom_condition.sqlite"}}
+./volttrontesting/services/tagging/test_tagging.py:1350:                           {"type": "sqlite",
+./volttrontesting/services/tagging/test_tagging.py:1353:                                    "/topic_by_tags_parent_topic.sqlite"}}
+./volttrontesting/services/tagging/test_tagging.py:1493:            temp_config["connection"]["type"] == "sqlite":
+./volttrontesting/services/tagging/test_tagging.py:1497:                {"type": "sqlite",
+./volttrontesting/services/tagging/test_tagging.py:1501:                         "/for_insert_topic_pattern.sqlite"}
+./volttrontesting/services/weather/test_base_weather.py:28:import sqlite3
+./volttrontesting/services/weather/test_base_weather.py:201:    assert DATABASE_FILE.endswith("weather.sqlite")
+./volttrontesting/services/weather/test_base_weather.py:214:    connection = cache._sqlite_conn
+./volttrontesting/services/weather/test_base_weather.py:223:    connection = weather._cache._sqlite_conn
+./volttrontesting/services/weather/test_base_weather.py:278:    connection = weather._cache._sqlite_conn
+./volttrontesting/services/weather/test_base_weather.py:323:    connection = cache._sqlite_conn
+./volttrontesting/services/weather/test_base_weather.py:516:    conn = weather._cache._sqlite_conn
+./volttrontesting/services/weather/test_base_weather.py:618:    conn = weather._cache._sqlite_conn
+./volttrontesting/services/weather/test_base_weather.py:662:    conn = weather._cache._sqlite_conn
+./volttrontesting/services/weather/test_base_weather.py:791:    conn = weather._cache._sqlite_conn
+./volttrontesting/services/weather/test_base_weather.py:847:    connection = cache._sqlite_conn
+./volttrontesting/services/weather/test_base_weather.py:1052:        conn = weather._cache._sqlite_conn
+./volttrontesting/services/weather/test_base_weather.py:1058:        weather._cache._sqlite_conn.close()
+./volttrontesting/services/weather/test_base_weather.py:1060:        weather._cache._sqlite_conn = sqlite3.connect(DATABASE_FILE)
+./volttrontesting/services/weather/test_base_weather.py:1106:        weather._cache._sqlite_conn.close()
+./volttrontesting/services/weather/test_base_weather.py:1108:        weather._cache._sqlite_conn = sqlite3.connect(DATABASE_FILE)
+./volttrontesting/services/weather/test_base_weather.py:1124:        # closing the sqlite connection will force reads and writes to fail
+./volttrontesting/services/weather/test_base_weather.py:1157:        weather._cache._sqlite_conn = sqlite3.connect(DATABASE_FILE)
+./volttrontesting/testutils/test_platformwrapper.py:208:    sqlite_config = {
+./volttrontesting/testutils/test_platformwrapper.py:210:            "type": "sqlite",
+./volttrontesting/testutils/test_platformwrapper.py:212:                "database": "data/historian.sqlite"
+./volttrontesting/testutils/test_platformwrapper.py:218:        config_file=sqlite_config,
+./volttrontesting/testutils/test_platformwrapper.py:225:        config_file=sqlite_config,
+./volttrontesting/testutils/test_base_historian_unit.py:15:CACHE_NAME = str(Path(agent_data_dir).joinpath("backup.sqlite"))
+./volttrontesting/testutils/test_base_historian_unit.py:17:HISTORIAN_DB = "./data/historian.sqlite"
+./volttrontesting/testutils/test_base_historian_unit.py:115:    # the backup database is an sqlite database with the name "backup.sqlite".
+./volttrontesting/testutils/test_base_historian_unit.py:117:    # also, delete the historian database for this test, which is an sqlite db in folder /data
+./volttrontesting/platform/test_sqlite3_fix.py:26:from  volttron.platform.agent.utils import fix_sqlite3_datetime
+./volttrontesting/platform/test_sqlite3_fix.py:27:import sqlite3 as sql
+./volttrontesting/platform/test_sqlite3_fix.py:29:def test_sqlite_fix_current():
+./volttrontesting/platform/test_sqlite3_fix.py:36:    # Patch the global sqlite3
+./volttrontesting/platform/test_sqlite3_fix.py:37:    fix_sqlite3_datetime()
+./volttrontesting/platform/dbutils/test_sqlitefuncts.py:1:import sqlite3
+./volttrontesting/platform/dbutils/test_sqlitefuncts.py:9:from volttron.platform.dbutils.sqlitefuncts import SqlLiteFuncts
+./volttrontesting/platform/dbutils/test_sqlitefuncts.py:18:CONNECT_PARAMS = {"database": "data/historian.sqlite"}
+./volttrontesting/platform/dbutils/test_sqlitefuncts.py:21:@pytest.mark.sqlitefuncts
+./volttrontesting/platform/dbutils/test_sqlitefuncts.py:23:def test_setup_historian_tables(sqlitefuncts_db_not_initialized):
+./volttrontesting/platform/dbutils/test_sqlitefuncts.py:26:    sqlitefuncts_db_not_initialized.setup_historian_tables()
+./volttrontesting/platform/dbutils/test_sqlitefuncts.py:33:@pytest.mark.sqlitefuncts
+./volttrontesting/platform/dbutils/test_sqlitefuncts.py:35:def test_setup_aggregate_historian_tables(get_sqlitefuncts):
+./volttrontesting/platform/dbutils/test_sqlitefuncts.py:36:    sqlitefuncts, historain_version = get_sqlitefuncts
+./volttrontesting/platform/dbutils/test_sqlitefuncts.py:54:    sqlitefuncts.setup_aggregate_historian_tables()
+./volttrontesting/platform/dbutils/test_sqlitefuncts.py:60:@pytest.mark.sqlitefuncts
+./volttrontesting/platform/dbutils/test_sqlitefuncts.py:69:def test_query(get_sqlitefuncts, topic_ids, id_name_map, expected_values):
+./volttrontesting/platform/dbutils/test_sqlitefuncts.py:70:    sqlitefuncts, historain_version = get_sqlitefuncts
+./volttrontesting/platform/dbutils/test_sqlitefuncts.py:75:    actual_results = sqlitefuncts.query(topic_ids, id_name_map)
+./volttrontesting/platform/dbutils/test_sqlitefuncts.py:80:@pytest.mark.sqlitefuncts
+./volttrontesting/platform/dbutils/test_sqlitefuncts.py:90:def test_manage_db_size(get_sqlitefuncts, history_limit_timestamp, storage_limit_gb, expected_data):
+./volttrontesting/platform/dbutils/test_sqlitefuncts.py:91:    sqlitefuncts, historain_version = get_sqlitefuncts
+./volttrontesting/platform/dbutils/test_sqlitefuncts.py:104:    sqlitefuncts.manage_db_size(history_limit_timestamp, storage_limit_gb)
+./volttrontesting/platform/dbutils/test_sqlitefuncts.py:109:@pytest.mark.sqlitefuncts
+./volttrontesting/platform/dbutils/test_sqlitefuncts.py:111:def test_insert_meta(get_sqlitefuncts):
+./volttrontesting/platform/dbutils/test_sqlitefuncts.py:112:    sqlitefuncts, historain_version = get_sqlitefuncts
+./volttrontesting/platform/dbutils/test_sqlitefuncts.py:122:    res = sqlitefuncts.insert_meta(topic_id, metadata)
+./volttrontesting/platform/dbutils/test_sqlitefuncts.py:123:    sqlitefuncts.commit()
+./volttrontesting/platform/dbutils/test_sqlitefuncts.py:129:@pytest.mark.sqlitefuncts
+./volttrontesting/platform/dbutils/test_sqlitefuncts.py:131:def test_insert_data(get_sqlitefuncts):
+./volttrontesting/platform/dbutils/test_sqlitefuncts.py:132:    sqlitefuncts, historain_version = get_sqlitefuncts
+./volttrontesting/platform/dbutils/test_sqlitefuncts.py:140:    res = sqlitefuncts.insert_data(ts, topic_id, data)
+./volttrontesting/platform/dbutils/test_sqlitefuncts.py:141:    sqlitefuncts.commit()
+./volttrontesting/platform/dbutils/test_sqlitefuncts.py:147:@pytest.mark.sqlitefuncts
+./volttrontesting/platform/dbutils/test_sqlitefuncts.py:149:def test_insert_topic(get_sqlitefuncts):
+./volttrontesting/platform/dbutils/test_sqlitefuncts.py:150:    sqlitefuncts, historain_version = get_sqlitefuncts
+./volttrontesting/platform/dbutils/test_sqlitefuncts.py:159:    res = sqlitefuncts.insert_topic(topic)
+./volttrontesting/platform/dbutils/test_sqlitefuncts.py:160:    sqlitefuncts.commit()
+./volttrontesting/platform/dbutils/test_sqlitefuncts.py:166:@pytest.mark.sqlitefuncts
+./volttrontesting/platform/dbutils/test_sqlitefuncts.py:168:def test_update_topic(get_sqlitefuncts):
+./volttrontesting/platform/dbutils/test_sqlitefuncts.py:169:    sqlitefuncts, historain_version = get_sqlitefuncts
+./volttrontesting/platform/dbutils/test_sqlitefuncts.py:179:    res = sqlitefuncts.update_topic("basketball", 1)
+./volttrontesting/platform/dbutils/test_sqlitefuncts.py:180:    sqlitefuncts.commit()
+./volttrontesting/platform/dbutils/test_sqlitefuncts.py:190:@pytest.mark.sqlitefuncts
+./volttrontesting/platform/dbutils/test_sqlitefuncts.py:192:def test_get_aggregation_list(get_sqlitefuncts):
+./volttrontesting/platform/dbutils/test_sqlitefuncts.py:193:    sqlitefuncts, historain_version = get_sqlitefuncts
+./volttrontesting/platform/dbutils/test_sqlitefuncts.py:194:    assert sqlitefuncts.get_aggregation_list() == [
+./volttrontesting/platform/dbutils/test_sqlitefuncts.py:204:@pytest.mark.sqlitefuncts
+./volttrontesting/platform/dbutils/test_sqlitefuncts.py:206:def test_insert_agg_topic(get_sqlitefuncts):
+./volttrontesting/platform/dbutils/test_sqlitefuncts.py:207:    sqlitefuncts, historain_version = get_sqlitefuncts
+./volttrontesting/platform/dbutils/test_sqlitefuncts.py:215:    sqlitefuncts.insert_agg_topic(topic, agg_type, agg_time_period)
+./volttrontesting/platform/dbutils/test_sqlitefuncts.py:216:    sqlitefuncts.commit()
+./volttrontesting/platform/dbutils/test_sqlitefuncts.py:221:@pytest.mark.sqlitefuncts
+./volttrontesting/platform/dbutils/test_sqlitefuncts.py:223:def test_update_agg_topic(get_sqlitefuncts):
+./volttrontesting/platform/dbutils/test_sqlitefuncts.py:224:    sqlitefuncts, historain_version = get_sqlitefuncts
+./volttrontesting/platform/dbutils/test_sqlitefuncts.py:234:    res = sqlitefuncts.update_agg_topic(1, new_agg_topic_name)
+./volttrontesting/platform/dbutils/test_sqlitefuncts.py:240:@pytest.mark.sqlitefuncts
+./volttrontesting/platform/dbutils/test_sqlitefuncts.py:242:def test_insert_agg_meta(get_sqlitefuncts):
+./volttrontesting/platform/dbutils/test_sqlitefuncts.py:243:    sqlitefuncts, historain_version = get_sqlitefuncts
+./volttrontesting/platform/dbutils/test_sqlitefuncts.py:249:    res = sqlitefuncts.insert_agg_meta(topic_id, metadata)
+./volttrontesting/platform/dbutils/test_sqlitefuncts.py:250:    sqlitefuncts.commit()
+./volttrontesting/platform/dbutils/test_sqlitefuncts.py:256:@pytest.mark.sqlitefuncts
+./volttrontesting/platform/dbutils/test_sqlitefuncts.py:258:def test_get_topic_map(get_sqlitefuncts):
+./volttrontesting/platform/dbutils/test_sqlitefuncts.py:259:    sqlitefuncts, historain_version = get_sqlitefuncts
+./volttrontesting/platform/dbutils/test_sqlitefuncts.py:274:    actual_topic_map = sqlitefuncts.get_topic_map()
+./volttrontesting/platform/dbutils/test_sqlitefuncts.py:279:@pytest.mark.sqlitefuncts
+./volttrontesting/platform/dbutils/test_sqlitefuncts.py:281:def test_get_topic_meta_map(get_sqlitefuncts):
+./volttrontesting/platform/dbutils/test_sqlitefuncts.py:282:    sqlitefuncts, historian_version = get_sqlitefuncts
+./volttrontesting/platform/dbutils/test_sqlitefuncts.py:291:        actual_topic_meta_map = sqlitefuncts.get_topic_meta_map()
+./volttrontesting/platform/dbutils/test_sqlitefuncts.py:295:@pytest.mark.sqlitefuncts
+./volttrontesting/platform/dbutils/test_sqlitefuncts.py:297:def test_get_agg_topics(get_sqlitefuncts):
+./volttrontesting/platform/dbutils/test_sqlitefuncts.py:298:    sqlitefuncts, historain_version = get_sqlitefuncts
+./volttrontesting/platform/dbutils/test_sqlitefuncts.py:304:    sqlitefuncts.insert_agg_meta(1, {"configured_topics": "great books"})
+./volttrontesting/platform/dbutils/test_sqlitefuncts.py:305:    sqlitefuncts.commit()
+./volttrontesting/platform/dbutils/test_sqlitefuncts.py:308:    actual_topics = sqlitefuncts.get_agg_topics()
+./volttrontesting/platform/dbutils/test_sqlitefuncts.py:313:@pytest.mark.sqlitefuncts
+./volttrontesting/platform/dbutils/test_sqlitefuncts.py:315:def test_agg_topics_should_return_empty_on_nonexistent_table(sqlitefuncts_db_not_initialized):
+./volttrontesting/platform/dbutils/test_sqlitefuncts.py:316:    init_historian_tables(sqlitefuncts_db_not_initialized)
+./volttrontesting/platform/dbutils/test_sqlitefuncts.py:318:    actual_topic_map = sqlitefuncts_db_not_initialized.get_agg_topics()
+./volttrontesting/platform/dbutils/test_sqlitefuncts.py:323:@pytest.mark.sqlitefuncts
+./volttrontesting/platform/dbutils/test_sqlitefuncts.py:325:def test_get_agg_topic_map(get_sqlitefuncts):
+./volttrontesting/platform/dbutils/test_sqlitefuncts.py:326:    sqlitefuncts, historain_version = get_sqlitefuncts
+./volttrontesting/platform/dbutils/test_sqlitefuncts.py:334:    actual_topic_map = sqlitefuncts.get_agg_topic_map()
+./volttrontesting/platform/dbutils/test_sqlitefuncts.py:339:@pytest.mark.sqlitefuncts
+./volttrontesting/platform/dbutils/test_sqlitefuncts.py:341:def test_agg_topic_map_should_return_empty_on_nonexistent_table(sqlitefuncts_db_not_initialized):
+./volttrontesting/platform/dbutils/test_sqlitefuncts.py:342:    init_historian_tables(sqlitefuncts_db_not_initialized)
+./volttrontesting/platform/dbutils/test_sqlitefuncts.py:344:    actual_topic_map = sqlitefuncts_db_not_initialized.get_agg_topic_map()
+./volttrontesting/platform/dbutils/test_sqlitefuncts.py:349:@pytest.mark.sqlitefuncts
+./volttrontesting/platform/dbutils/test_sqlitefuncts.py:368:def test_query_topics_by_pattern(get_sqlitefuncts, topic_1, topic_2, topic_3, topic_pattern, expected_topics):
+./volttrontesting/platform/dbutils/test_sqlitefuncts.py:369:    sqlitefuncts, historain_version = get_sqlitefuncts
+./volttrontesting/platform/dbutils/test_sqlitefuncts.py:377:    actual_topics = sqlitefuncts.query_topics_by_pattern(topic_pattern)
+./volttrontesting/platform/dbutils/test_sqlitefuncts.py:382:@pytest.mark.sqlitefuncts
+./volttrontesting/platform/dbutils/test_sqlitefuncts.py:384:def test_create_aggregate_store(get_sqlitefuncts):
+./volttrontesting/platform/dbutils/test_sqlitefuncts.py:385:    sqlitefuncts, historain_version = get_sqlitefuncts
+./volttrontesting/platform/dbutils/test_sqlitefuncts.py:389:    expected_indexes = ['0|idx_AVG_1984|0', '1|sqlite_autoindex_AVG_1984_1|1']
+./volttrontesting/platform/dbutils/test_sqlitefuncts.py:391:    result = sqlitefuncts.create_aggregate_store(agg_type, agg_time_period)
+./volttrontesting/platform/dbutils/test_sqlitefuncts.py:402:@pytest.mark.sqlitefuncts
+./volttrontesting/platform/dbutils/test_sqlitefuncts.py:404:def test_collect_aggregate(get_sqlitefuncts):
+./volttrontesting/platform/dbutils/test_sqlitefuncts.py:405:    sqlitefuncts, historain_version = get_sqlitefuncts
+./volttrontesting/platform/dbutils/test_sqlitefuncts.py:416:    actual_aggregate = sqlitefuncts.collect_aggregate(topic_ids, agg_type)
+./volttrontesting/platform/dbutils/test_sqlitefuncts.py:440:        ["sqlite3", "data/historian.sqlite", query], text=True, capture_output=True
+./volttrontesting/platform/dbutils/test_sqlitefuncts.py:450:def sqlitefuncts_db_not_initialized():
+./volttrontesting/platform/dbutils/test_sqlitefuncts.py:474:def get_sqlitefuncts(request, sqlitefuncts_db_not_initialized):
+./volttrontesting/platform/dbutils/test_sqlitefuncts.py:475:    init_database(sqlitefuncts_db_not_initialized, request.param)
+./volttrontesting/platform/dbutils/test_sqlitefuncts.py:476:    yield sqlitefuncts_db_not_initialized, request.param
+./volttrontesting/platform/dbutils/test_sqlitefuncts.py:479:def init_database(sqlitefuncts_client, historian_version):
+./volttrontesting/platform/dbutils/test_sqlitefuncts.py:483:            CONNECT_PARAMS['detect_types'] = sqlite3.PARSE_DECLTYPES | sqlite3.PARSE_COLNAMES
+./volttrontesting/platform/dbutils/test_sqlitefuncts.py:486:        connection = sqlite3.connect(**CONNECT_PARAMS)
+./volttrontesting/platform/dbutils/test_sqlitefuncts.py:505:        sqlitefuncts_client.setup_aggregate_historian_tables()
+./volttrontesting/platform/dbutils/test_sqlitefuncts.py:507:        sqlitefuncts_client.setup_historian_tables()
+./volttrontesting/platform/dbutils/test_sqlitefuncts.py:508:        sqlitefuncts_client.setup_aggregate_historian_tables()
+./volttrontesting/platform/dbutils/test_sqlitefuncts.py:511:def init_historian_tables(sqlitefuncts_client):
+./volttrontesting/platform/dbutils/test_sqlitefuncts.py:512:    sqlitefuncts_client.setup_historian_tables()
+./volttrontesting/platform/dbutils/test_backup_database.py:13:cache_db = str(Path(agent_data_dir).joinpath("backup.sqlite"))
+./volttrontesting/platform/dbutils/test_backup_database.py:254:    # the backup database is an sqlite database with the name "backup.sqlite".
+./volttrontesting/platform/dbutils/test_backup_database.py:270:        ["sqlite3", cache_db, query], text=True, capture_output=True

@@ -154,6 +154,22 @@ class Interface(BasicRevert, BaseInterface):
                     raise ValueError(error_msg)
             else:
                 _log.info(f"Currently, input_booleans only support state")
+        
+        elif "switch." in register.entity_id:
+            if entity_point == "state":
+                if isinstance(register.value, int) and register.value in [0, 1]:
+                    if register.value == 1:
+                        self.turn_on_switch(register.entity_id)
+                    else:
+                        self.turn_off_switch(register.entity_id)
+                else:
+                    error_msg = f"State value for {register.entity_id} must be 1 (on) or 0 (off)"
+                    _log.error(error_msg)
+                    raise ValueError(error_msg)
+            else:
+                error_msg = f"Unsupported entity point '{entity_point}' for switch {register.entity_id}"
+                _log.error(error_msg)
+                raise ValueError(error_msg)
 
         # Changing thermostat values.
         elif "climate." in register.entity_id:
@@ -236,32 +252,29 @@ class Interface(BasicRevert, BaseInterface):
                         attribute = entity_data.get("attributes", {}).get(f"{entity_point}", 0)
                         register.value = attribute
                         result[register.point_name] = attribute
-                # handling light states
-                elif "light." or "input_boolean." in entity_id: # Checks for lights or input bools since they have the same states.
+                # light, input_boolean, and switch all use the same on/off behavior
+                elif (
+                    entity_id.startswith("light.")
+                    or entity_id.startswith("input_boolean.")
+                    or entity_id.startswith("switch.")
+                ):
                     if entity_point == "state":
                         state = entity_data.get("state", None)
-                        # Converting light states to numbers.
+                        
                         if state == "on":
                             register.value = 1
                             result[register.point_name] = 1
                         elif state == "off":
                             register.value = 0
                             result[register.point_name] = 0
+                        else: 
+                            register.value = state
+                            result[register.point_name] = state
                     else:
                         attribute = entity_data.get("attributes", {}).get(f"{entity_point}", 0)
                         register.value = attribute
                         result[register.point_name] = attribute
-                else:  # handling all devices that are not thermostats or light states
-                    if entity_point == "state":
-
-                        state = entity_data.get("state", None)
-                        register.value = state
-                        result[register.point_name] = state
-                    # Assigning attributes
-                    else:
-                        attribute = entity_data.get("attributes", {}).get(f"{entity_point}", 0)
-                        register.value = attribute
-                        result[register.point_name] = attribute
+                            
             except Exception as e:
                 _log.error(f"An unexpected error occurred for entity_id: {entity_id}: {e}")
 
@@ -405,3 +418,25 @@ class Interface(BasicRevert, BaseInterface):
             print(f"Successfully set {entity_id} to {state}")
         else:
             print(f"Failed to set {entity_id} to {state}: {response.text}")
+
+    def turn_off_switch(self, entity_id):
+        url = f"http://{self.ip_address}:{self.port}/api/services/switch/turn_off"
+        headers = {
+            "Authorization": f"Bearer {self.access_token}",
+            "Content-Type": "application/json",
+        }
+        payload = {
+            "entity_id": entity_id,
+        }
+        _post_method(url, headers, payload, f"turn off {entity_id}")
+
+    def turn_on_switch(self, entity_id):
+        url = f"http://{self.ip_address}:{self.port}/api/services/switch/turn_on"
+        headers = {
+            "Authorization": f"Bearer {self.access_token}",
+            "Content-Type": "application/json",
+        }
+        payload = {
+            "entity_id": entity_id,
+        }
+        _post_method(url, headers, payload, f"turn on {entity_id}")
