@@ -94,6 +94,120 @@ def test_get_switch_state(volttron_instance, config_store):
     ).get(timeout=20)
     assert result == expected, f"Expected switch to be OFF (0), got {result}"
 
+def test_set_switch_on(volttron_instance, config_store):
+    """Set the switch to ON (1) and verify via scrape_all."""
+    agent = volttron_instance.dynamic_agent
+    
+    # Set the switch_state point to 1 (ON)
+    agent.vip.rpc.call(
+        PLATFORM_DRIVER,
+        "set_point",
+        "home_assistant",
+        "switch_state",
+        1,
+    )
+
+    # Give Home Assistant time to update
+    gevent.sleep(10)
+
+    # Scrape all points and check the switch_state value
+    result = agent.vip.rpc.call(
+        PLATFORM_DRIVER,
+        "scrape_all",
+        "home_assistant",
+    ).get(timeout=20)
+
+    assert result.get("switch_state") == 1, (
+        f"Expected switch_state to be 1 (ON), got {result.get('switch_state')}"
+    )
+
+def test_set_switch_off(volttron_instance, config_store):
+    """Set the switch to OFF (0) and verify via scrape_all."""
+    agent = volttron_instance.dynamic_agent
+
+    # Set the switch_state point to 0 (OFF)
+    agent.vip.rpc.call(
+        PLATFORM_DRIVER,
+        "set_point",
+        "home_assistant",
+        "switch_state",
+        0,
+    )
+
+    # Give Home Assistant time to update
+    gevent.sleep(10)
+
+    # Scrape all points and check the switch_state value
+    result = agent.vip.rpc.call(
+        PLATFORM_DRIVER,
+        "scrape_all",
+        "home_assistant",
+    ).get(timeout=20)
+
+    assert result.get("switch_state") == 0, (
+        f"Expected switch_state to be 0 (OFF), got {result.get('switch_state')}"
+    )
+
+def test_get_fan_state(volttron_instance, config_store):
+    """Fan should initially be OFF (0)."""
+    expected = 0
+    agent = volttron_instance.dynamic_agent
+    result = agent.vip.rpc.call(
+        PLATFORM_DRIVER,
+        "get_point",
+        "home_assistant",
+        "fan_state",
+    ).get(timeout=20)
+    assert result == expected, f"Expected fan to be OFF (0), got {result}"
+
+
+def test_set_fan_on(volttron_instance, config_store):
+    """Set the fan to ON (1) and verify via scrape_all."""
+    agent = volttron_instance.dynamic_agent
+
+    agent.vip.rpc.call(
+        PLATFORM_DRIVER,
+        "set_point",
+        "home_assistant",
+        "fan_state",
+        1,
+    )
+    gevent.sleep(10)
+
+    result = agent.vip.rpc.call(
+        PLATFORM_DRIVER,
+        "scrape_all",
+        "home_assistant",
+    ).get(timeout=20)
+
+    assert result.get("fan_state") == 1, (
+        f"Expected fan_state to be 1 (ON), got {result.get('fan_state')}"
+    )
+
+
+def test_set_fan_off(volttron_instance, config_store):
+    """Set the fan to OFF (0) and verify via scrape_all."""
+    agent = volttron_instance.dynamic_agent
+
+    agent.vip.rpc.call(
+        PLATFORM_DRIVER,
+        "set_point",
+        "home_assistant",
+        "fan_state",
+        0,
+    )
+    gevent.sleep(10)
+
+    result = agent.vip.rpc.call(
+        PLATFORM_DRIVER,
+        "scrape_all",
+        "home_assistant",
+    ).get(timeout=20)
+
+    assert result.get("fan_state") == 0, (
+        f"Expected fan_state to be 0 (OFF), got {result.get('fan_state')}"
+    )    
+
 @pytest.fixture(scope="module")
 def config_store(volttron_instance, platform_driver):
 

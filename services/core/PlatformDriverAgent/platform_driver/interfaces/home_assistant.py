@@ -170,6 +170,22 @@ class Interface(BasicRevert, BaseInterface):
                 error_msg = f"Unsupported entity point '{entity_point}' for switch {register.entity_id}"
                 _log.error(error_msg)
                 raise ValueError(error_msg)
+        
+        elif "fan." in register.entity_id:
+            if entity_point == "state": 
+                if isinstance(register.value, int) and register.value in [0, 1]:
+                    if register.value == 1:
+                        self.turn_on_fan(register.entity_id)
+                    else:
+                        self.turn_off_fan(register.entity_id)
+                else:
+                    error_msg = f"State value for {register.entity_id} must be 1 (on) or 0 (off)"
+                    _log.error(error_msg)
+                    raise ValueError(error_msg)
+            else: 
+                error_msg = f"Unsupported entity point '{entity_point}' for fan {register.entity_id}"
+                _log.error(error_msg)
+                raise ValueError(error_msg)
 
         # Changing thermostat values.
         elif "climate." in register.entity_id:
@@ -257,6 +273,7 @@ class Interface(BasicRevert, BaseInterface):
                     entity_id.startswith("light.")
                     or entity_id.startswith("input_boolean.")
                     or entity_id.startswith("switch.")
+                    or entity_id.startswith("fan.")
                 ):
                     if entity_point == "state":
                         state = entity_data.get("state", None)
@@ -334,7 +351,6 @@ class Interface(BasicRevert, BaseInterface):
                 "Authorization": f"Bearer {self.access_token}",
                 "Content-Type": "application/json",
         }
-
         payload = {
             "entity_id": f"{entity_id}"
         }
@@ -432,6 +448,28 @@ class Interface(BasicRevert, BaseInterface):
 
     def turn_on_switch(self, entity_id):
         url = f"http://{self.ip_address}:{self.port}/api/services/switch/turn_on"
+        headers = {
+            "Authorization": f"Bearer {self.access_token}",
+            "Content-Type": "application/json",
+        }
+        payload = {
+            "entity_id": entity_id,
+        }
+        _post_method(url, headers, payload, f"turn on {entity_id}")
+
+    def turn_off_fan(self, entity_id):
+        url = f"http://{self.ip_address}:{self.port}/api/services/fan/turn_off"
+        headers = {
+            "Authorization": f"Bearer {self.access_token}",
+            "Content-Type": "application/json",
+        }
+        payload = {
+            "entity_id": entity_id,
+        }
+        _post_method(url, headers, payload, f"turn off {entity_id}")
+
+    def turn_on_fan(self, entity_id):
+        url = f"http://{self.ip_address}:{self.port}/api/services/fan/turn_on"
         headers = {
             "Authorization": f"Bearer {self.access_token}",
             "Content-Type": "application/json",
