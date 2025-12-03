@@ -119,6 +119,7 @@ class Interface(BasicRevert, BaseInterface):
                 "Trying to write to a point configured read only: " + point_name)
         register.value = register.reg_type(value)  # setting the value
         entity_point = register.entity_point
+
         # Changing lights values in home assistant based off of register value.
         if "light." in register.entity_id:
             if entity_point == "state":
@@ -158,49 +159,33 @@ class Interface(BasicRevert, BaseInterface):
             else:
                 _log.info(f"Currently, input_booleans only support state")
         
-        ### SWITCH HANDLING 
+        ### SWITCH HANDLING
         # Adds write support for Home Assistant switch entities.
         # Values:
         # 1 - turn the switch ON
         # 0 - turn the switch OFF
         # Any other values raise a ValueError.
         elif "switch." in register.entity_id:
-            if entity_point == "state":
-                if isinstance(register.value, int) and register.value in [0, 1]:
-                    if register.value == 1:
-                        self.turn_on_switch(register.entity_id)
-                    else:
-                        self.turn_off_switch(register.entity_id)
-                else:
-                    error_msg = f"State value for {register.entity_id} must be 1 (on) or 0 (off)"
-                    _log.error(error_msg)
-                    raise ValueError(error_msg)
-            else:
-                error_msg = f"Unsupported entity point '{entity_point}' for switch {register.entity_id}"
-                _log.error(error_msg)
-                raise ValueError(error_msg)
-        
-        ### FAN HANDLING 
+            self._handle_on_off_entity(
+                entity_id=register.entity_id,
+                entity_point=entity_point,
+                value=register.value,
+                entity_kind="switch",
+            )
+
+        ### FAN HANDLING
         # Adds write support for Home Assistant fan entities.
         # Values:
         # 1 - turn the fan ON
         # 0 - turn the fan OFF
         # Any other values raise a ValueError.
         elif "fan." in register.entity_id:
-            if entity_point == "state": 
-                if isinstance(register.value, int) and register.value in [0, 1]:
-                    if register.value == 1:
-                        self.turn_on_fan(register.entity_id)
-                    else:
-                        self.turn_off_fan(register.entity_id)
-                else:
-                    error_msg = f"State value for {register.entity_id} must be 1 (on) or 0 (off)"
-                    _log.error(error_msg)
-                    raise ValueError(error_msg)
-            else: 
-                error_msg = f"Unsupported entity point '{entity_point}' for fan {register.entity_id}"
-                _log.error(error_msg)
-                raise ValueError(error_msg)
+            self._handle_on_off_entity(
+                entity_id=register.entity_id,
+                entity_point=entity_point,
+                value=register.value,
+                entity_kind="fan",
+            )
 
         # Changing thermostat values.
         elif "climate." in register.entity_id:
@@ -234,6 +219,44 @@ class Interface(BasicRevert, BaseInterface):
             _log.error(error_msg)
             raise ValueError(error_msg)
         return register.value
+
+    ### INTERNAL HELPER FOR GENERIC ON/OFF ENTITIES (switch, fan, etc.)
+    def _handle_on_off_entity(self, entity_id, entity_point, value, entity_kind):
+        """
+        Shared helper for entities that support simple on/off state.
+
+        entity_kind examples: "switch", "fan"
+        value:
+            1 -> on
+            0 -> off
+        """
+        # For these entities we only support the "state" point
+        if entity_point != "state":
+            error_msg = f"Unsupported entity point '{entity_point}' for {entity_kind} {entity_id}"
+            _log.error(error_msg)
+            raise ValueError(error_msg)
+
+        # Validate that we only accept 0 or 1 as integers
+        if not isinstance(value, int) or value not in (0, 1):
+            error_msg = f"State value for {entity_id} must be 1 (on) or 0 (off)"
+            _log.error(error_msg)
+            raise ValueError(error_msg)
+
+        # Route to the correct helper method based on entity_kind
+        if entity_kind == "switch":
+            if value == 1:
+                self.turn_on_switch(entity_id)
+            else:
+                self.turn_off_switch(entity_id)
+        elif entity_kind == "fan":
+            if value == 1:
+                self.turn_on_fan(entity_id)
+            else:
+                self.turn_off_fan(entity_id)
+        else:
+            error_msg = f"Unsupported entity kind '{entity_kind}' for on/off handler"
+            _log.error(error_msg)
+            raise ValueError(error_msg)
 
     def get_entity_data(self, point_name):
         headers = {
@@ -458,52 +481,52 @@ class Interface(BasicRevert, BaseInterface):
         else:
             print(f"Failed to set {entity_id} to {state}: {response.text}")
 
+    ### INTERNAL HELPER FOR HOME ASSISTANT SERVICES
+    def _call_ha_service(self, domain, service, entity_id, operation_description):
+        """
+        Internal helper to call a Home Assistant service.
+        """
+        url = f"http://{self.ip_address}:{self.port}/api/services/{domain}/{service}"
+        headers = {
+            "Authorization": f"Bearer {self.access_token}",
+            "Content-Type": "application/json",
+        }
+        payload = {
+            "entity_id": entity_id
+        }
+
+        _post_method(url, headers, payload, operation_description)
+
     ### SWITCH HELPER METHODS
     ### switch.turn_off
     def turn_off_switch(self, entity_id):
-        url = f"http://{self.ip_address}:{self.port}/api/services/switch/turn_off"
-        headers = {
-            "Authorization": f"Bearer {self.access_token}",
-            "Content-Type": "application/json",
-        }
-        payload = {
-            "entity_id": entity_id,
-        }
-        _post_method(url, headers, payload, f"turn off {entity_id}")
+        """
+        Turn off a Home Assistant switch entity (switch.*).
+        """
+        operation_description = f"turn off {entity_id}"
+        self._call_ha_service("switch", "turn_off", entity_id, operation_description)
 
     ### switch.turn_on
     def turn_on_switch(self, entity_id):
-        url = f"http://{self.ip_address}:{self.port}/api/services/switch/turn_on"
-        headers = {
-            "Authorization": f"Bearer {self.access_token}",
-            "Content-Type": "application/json",
-        }
-        payload = {
-            "entity_id": entity_id,
-        }
-        _post_method(url, headers, payload, f"turn on {entity_id}")
+        """
+        Turn on a Home Assistant switch entity (switch.*).
+        """
+        operation_description = f"turn on {entity_id}"
+        self._call_ha_service("switch", "turn_on", entity_id, operation_description)
 
-    ### FAN METHOD HELPERS 
+    ### FAN METHOD HELPERS
     ### fan.turn_off
     def turn_off_fan(self, entity_id):
-        url = f"http://{self.ip_address}:{self.port}/api/services/fan/turn_off"
-        headers = {
-            "Authorization": f"Bearer {self.access_token}",
-            "Content-Type": "application/json",
-        }
-        payload = {
-            "entity_id": entity_id,
-        }
-        _post_method(url, headers, payload, f"turn off {entity_id}")
+        """
+        Turn off a Home Assistant fan entity (fan.*).
+        """
+        operation_description = f"turn off {entity_id}"
+        self._call_ha_service("fan", "turn_off", entity_id, operation_description)
 
     ### fan.turn_on
     def turn_on_fan(self, entity_id):
-        url = f"http://{self.ip_address}:{self.port}/api/services/fan/turn_on"
-        headers = {
-            "Authorization": f"Bearer {self.access_token}",
-            "Content-Type": "application/json",
-        }
-        payload = {
-            "entity_id": entity_id,
-        }
-        _post_method(url, headers, payload, f"turn on {entity_id}")
+        """
+        Turn on a Home Assistant fan entity (fan.*).
+        """
+        operation_description = f"turn on {entity_id}"
+        self._call_ha_service("fan", "turn_on", entity_id, operation_description)
