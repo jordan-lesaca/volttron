@@ -224,11 +224,6 @@ class Interface(BasicRevert, BaseInterface):
     def _handle_on_off_entity(self, entity_id, entity_point, value, entity_kind):
         """
         Shared helper for entities that support simple on/off state.
-
-        entity_kind examples: "switch", "fan"
-        value:
-            1 -> on
-            0 -> off
         """
         # For these entities we only support the "state" point
         if entity_point != "state":
