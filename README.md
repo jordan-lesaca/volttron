@@ -349,8 +349,32 @@ To top the platform run the following command:
 ```sh
 ./stop-volttron
 ```
+### Home Assistant Driver – Extended Write Access (CS5500 Project)
 
-## Next Steps
+This fork adds new write-access capabilities to the Home Assistant Driver:
+
+- Path: `services/core/PlatformDriverAgent/platform_driver/interfaces/home_assistant.py`
+- Devices now supported for write access:
+  - `switch.*` entities (ON/OFF)
+  - `fan.*` entities (ON/OFF)
+
+### Write behavior
+
+Write operations use the existing `set_point` mechanism in the Platform Driver:
+
+- For `switch.*` and `fan.*` entities:
+  - `set_point("switch.kitchen", 1)` → turn ON  
+  - `set_point("switch.kitchen", 0)` → turn OFF  
+- Any other value raises a `ValueError` and is logged as an error.
+
+Under the hood, the driver calls Home Assistant’s service endpoints:
+
+- `POST /api/services/switch/turn_on`
+- `POST /api/services/switch/turn_off`
+- `POST /api/services/fan/turn_on`
+- `POST /api/services/fan/turn_off`
+
+### Next Steps
 
 There are several walkthroughs to explore additional aspects of the platform:
 
