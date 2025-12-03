@@ -109,6 +109,9 @@ class Interface(BasicRevert, BaseInterface):
             value = entity_data.get("attributes", {}).get(f"{register.point_name}", 0)
             return value
 
+    # Handles writes to Home Assistant entities.
+    # Based on entity_id and entity_point, this method maps incoming values
+    # to the correct HA service call (lights, switches, fans, thermostats, etc.).
     def _set_point(self, point_name, value):
         register = self.get_register_by_name(point_name)
         if register.read_only:
@@ -155,6 +158,12 @@ class Interface(BasicRevert, BaseInterface):
             else:
                 _log.info(f"Currently, input_booleans only support state")
         
+        ### SWITCH HANDLING 
+        # Adds write support for Home Assistant switch entities.
+        # Values:
+        # 1 - turn the switch ON
+        # 0 - turn the switch OFF
+        # Any other values raise a ValueError.
         elif "switch." in register.entity_id:
             if entity_point == "state":
                 if isinstance(register.value, int) and register.value in [0, 1]:
@@ -171,6 +180,12 @@ class Interface(BasicRevert, BaseInterface):
                 _log.error(error_msg)
                 raise ValueError(error_msg)
         
+        ### FAN HANDLING 
+        # Adds write support for Home Assistant fan entities.
+        # Values:
+        # 1 - turn the fan ON
+        # 0 - turn the fan OFF
+        # Any other values raise a ValueError.
         elif "fan." in register.entity_id:
             if entity_point == "state": 
                 if isinstance(register.value, int) and register.value in [0, 1]:
@@ -211,8 +226,11 @@ class Interface(BasicRevert, BaseInterface):
                 _log.error(error_msg)
                 raise ValueError(error_msg)
         else:
-            error_msg = f"Unsupported entity_id: {register.entity_id}. " \
-                        f"Currently set_point is supported only for thermostats and lights"
+            error_msg = (
+                f"Unsupported entity_id: {register.entity_id}. "
+                "Currently set_point is supported only for lights, input_booleans, "
+                "switches, fans, and thermostats"
+            )
             _log.error(error_msg)
             raise ValueError(error_msg)
         return register.value
@@ -268,7 +286,12 @@ class Interface(BasicRevert, BaseInterface):
                         attribute = entity_data.get("attributes", {}).get(f"{entity_point}", 0)
                         register.value = attribute
                         result[register.point_name] = attribute
-                # light, input_boolean, and switch all use the same on/off behavior
+                ### GENERIC ON/OFF ENTITIES
+                #   light.*, input_boolean.*, switch.*, fan.*
+                #   state:
+                #   "on"  -> 1
+                #   "off" -> 0
+                #   any other state is returned as-is (e.g., "unavailable").
                 elif (
                     entity_id.startswith("light.")
                     or entity_id.startswith("input_boolean.")
@@ -435,6 +458,8 @@ class Interface(BasicRevert, BaseInterface):
         else:
             print(f"Failed to set {entity_id} to {state}: {response.text}")
 
+    ### SWITCH HELPER METHODS
+    ### switch.turn_off
     def turn_off_switch(self, entity_id):
         url = f"http://{self.ip_address}:{self.port}/api/services/switch/turn_off"
         headers = {
@@ -446,6 +471,7 @@ class Interface(BasicRevert, BaseInterface):
         }
         _post_method(url, headers, payload, f"turn off {entity_id}")
 
+    ### switch.turn_on
     def turn_on_switch(self, entity_id):
         url = f"http://{self.ip_address}:{self.port}/api/services/switch/turn_on"
         headers = {
@@ -457,6 +483,8 @@ class Interface(BasicRevert, BaseInterface):
         }
         _post_method(url, headers, payload, f"turn on {entity_id}")
 
+    ### FAN METHOD HELPERS 
+    ### fan.turn_off
     def turn_off_fan(self, entity_id):
         url = f"http://{self.ip_address}:{self.port}/api/services/fan/turn_off"
         headers = {
@@ -468,6 +496,7 @@ class Interface(BasicRevert, BaseInterface):
         }
         _post_method(url, headers, payload, f"turn off {entity_id}")
 
+    ### fan.turn_on
     def turn_on_fan(self, entity_id):
         url = f"http://{self.ip_address}:{self.port}/api/services/fan/turn_on"
         headers = {
