@@ -206,7 +206,35 @@ def test_set_fan_off(volttron_instance, config_store):
 
     assert result.get("fan_state") == 0, (
         f"Expected fan_state to be 0 (OFF), got {result.get('fan_state')}"
-    )    
+    )
+
+
+def test_set_switch_invalid_value_raises(volttron_instance, config_store):
+    """Switch write should reject any value other than 0 or 1."""
+    agent = volttron_instance.dynamic_agent
+
+    with pytest.raises(Exception):
+        agent.vip.rpc.call(
+            PLATFORM_DRIVER,
+            "set_point",
+            "home_assistant",
+            "switch_state",
+            2,  # invalid value
+        ).get(timeout=20)
+
+
+def test_set_fan_invalid_value_raises(volttron_instance, config_store):
+    """Fan write should reject any value other than 0 or 1."""
+    agent = volttron_instance.dynamic_agent
+
+    with pytest.raises(Exception):
+        agent.vip.rpc.call(
+            PLATFORM_DRIVER,
+            "set_point",
+            "home_assistant",
+            "fan_state",
+            -1,  # invalid value
+        ).get(timeout=20)
 
 @pytest.fixture(scope="module")
 def config_store(volttron_instance, platform_driver):
