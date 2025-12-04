@@ -374,6 +374,12 @@ Under the hood, the driver calls Home Assistant’s service endpoints:
 - `POST /api/services/fan/turn_on`
 - `POST /api/services/fan/turn_off`
 
+### Integration tests
+
+- Location: `services/core/PlatformDriverAgent/tests/test_home_assistant.py`
+- Requirements: a reachable Home Assistant instance plus `HOMEASSISTANT_TEST_IP`, `ACCESS_TOKEN`, and `PORT` set to valid values. Without these, pytest will skip the tests.
+- What’s covered: happy-path reads/writes for switches and fans (on/off) and guard-rail tests ensuring invalid values are rejected.
+
 ### Next Steps
 
 There are several walkthroughs to explore additional aspects of the platform:
