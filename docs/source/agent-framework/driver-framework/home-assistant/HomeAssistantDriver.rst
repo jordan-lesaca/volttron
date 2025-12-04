@@ -4,7 +4,7 @@ Home Assistant Driver
 =====================
 
 The Home Assistant driver enables VOLTTRON to read any data point from any Home Assistant controlled device.
-Currently control(write access) is supported only for lights(state and brightness) and thermostats(state and temperature).
+Control (write access) is supported for lights (state and brightness), thermostats (state and temperature), and for simple on/off entities such as switches (``switch.*``) and fans (``fan.*``) using integer values ``1`` (on) and ``0`` (off).
 
 The following diagram shows interaction between platform driver agent and home assistant driver.
 
@@ -157,6 +157,12 @@ For thermostats, the state is converted into numbers as follows: "0: Off, 2: hea
            "Notes": "Target Temp"
        }
    ]
+
+Integration tests
+-----------------
+
+- The Home Assistant driver integration tests live at ``services/core/PlatformDriverAgent/tests/test_home_assistant.py``.
+- To run them, provide a reachable Home Assistant instance and set ``HOMEASSISTANT_TEST_IP``, ``ACCESS_TOKEN`` (long-lived token), and ``PORT``. Without these, pytest will skip the tests.
 
 
 
