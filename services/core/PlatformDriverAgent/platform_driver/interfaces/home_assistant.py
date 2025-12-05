@@ -612,6 +612,7 @@ class Interface(BasicRevert, BaseInterface):
             >>> self.turn_on_switch('switch.bedroom_lamp')
         """
         operation_description = f"turn on {entity_id}"
+        print(f"{entity_id} has been turned ON")
         self._call_ha_service("switch", "turn_on", entity_id, operation_description)
 
     def turn_off_fan(self, entity_id):
@@ -631,6 +632,7 @@ class Interface(BasicRevert, BaseInterface):
             >>> self.turn_off_fan('fan.bedroom')
         """
         operation_description = f"turn off {entity_id}"
+        print(f"{entity_id} fan has been turned ON")
         self._call_ha_service("fan", "turn_off", entity_id, operation_description)
 
     def turn_on_fan(self, entity_id):
@@ -650,4 +652,5 @@ class Interface(BasicRevert, BaseInterface):
             >>> self.turn_on_fan('fan.bedroom')
         """
         operation_description = f"turn on {entity_id}"
+        print(f"{entity_id} fan has been turned OFF")
         self._call_ha_service("fan", "turn_on", entity_id, operation_description)
