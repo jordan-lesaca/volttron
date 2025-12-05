@@ -312,7 +312,7 @@ class TestSwitchControl:
         )
         mock_interface.get_register_by_name = Mock(return_value=register)
         
-        with pytest.raises(ValueError, match="must be 1 \\(on\\) or 0 \\(off\\)"):
+        with pytest.raises(ValueError, match=r"0 \(off\) or 1 \(on\)"):
             mock_interface._set_point("switch_state", 5)
 
 
@@ -600,7 +600,8 @@ class TestErrorHandling:
     @patch('home_assistant.requests.post')
     def test_request_exception(self, mock_post, mock_interface):
         """Test handling of request exceptions"""
-        mock_post.side_effect = Exception("Network error")
+        import requests
+        mock_post.side_effect = requests.RequestException("Network error")
         
         with pytest.raises(Exception, match="Error when attempting"):
             mock_interface.turn_on_lights("light.living_room")
@@ -666,7 +667,8 @@ class TestHelperMethods:
     @patch('home_assistant.requests.post')
     def test_call_ha_service_network_error(self, mock_post, mock_interface):
         """Test _call_ha_service with network error"""
-        mock_post.side_effect = Exception("Network timeout")
+        import requests
+        mock_post.side_effect = requests.RequestException("Network timeout")
         
         with pytest.raises(Exception, match="Error when attempting"):
             mock_interface._call_ha_service(
@@ -753,7 +755,7 @@ class TestHelperMethods:
     
     def test_handle_on_off_entity_invalid_value_not_int(self, mock_interface):
         """Test _handle_on_off_entity rejects non-integer values"""
-        with pytest.raises(ValueError, match="must be 1 \\(on\\) or 0 \\(off\\)"):
+        with pytest.raises(ValueError, match=r"0 \(off\) or 1 \(on\)"):
             mock_interface._handle_on_off_entity(
                 entity_id="switch.outlet",
                 entity_point="state",
@@ -763,7 +765,7 @@ class TestHelperMethods:
     
     def test_handle_on_off_entity_invalid_value_out_of_range(self, mock_interface):
         """Test _handle_on_off_entity rejects values other than 0 or 1"""
-        with pytest.raises(ValueError, match="must be 1 \\(on\\) or 0 \\(off\\)"):
+        with pytest.raises(ValueError, match=r"0 \(off\) or 1 \(on\)"):
             mock_interface._handle_on_off_entity(
                 entity_id="switch.outlet",
                 entity_point="state",
