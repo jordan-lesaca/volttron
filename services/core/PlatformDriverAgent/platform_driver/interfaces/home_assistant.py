@@ -160,11 +160,18 @@ class Interface(BasicRevert, BaseInterface):
                 _log.info(f"Currently, input_booleans only support state")
         
         ### SWITCH HANDLING
-        # Adds write support for Home Assistant switch entities.
-        # Values:
-        # 1 - turn the switch ON
-        # 0 - turn the switch OFF
-        # Any other values raise a ValueError.
+        # Provides write support for Home Assistant switch entities (switch.*).
+        # This implementation uses the shared _handle_on_off_entity helper to ensure
+        # consistent validation and error handling across all binary on/off devices.
+        # 
+        # Supported operations:
+        # - Set state to 1: Turns the switch ON via switch.turn_on service
+        # - Set state to 0: Turns the switch OFF via switch.turn_off service
+        # 
+        # Validation:
+        # - entity_point must be 'state' (switches don't support other control points)  
+        # - value must be exactly 0 or 1 (integer)
+        # - Non-conforming values raise ValueError with descriptive message
         elif "switch." in register.entity_id:
             self._handle_on_off_entity(
                 entity_id=register.entity_id,
@@ -174,11 +181,21 @@ class Interface(BasicRevert, BaseInterface):
             )
 
         ### FAN HANDLING
-        # Adds write support for Home Assistant fan entities.
-        # Values:
-        # 1 - turn the fan ON
-        # 0 - turn the fan OFF
-        # Any other values raise a ValueError.
+        # Provides write support for Home Assistant fan entities (fan.*).
+        # This implementation uses the shared _handle_on_off_entity helper to ensure
+        # consistent validation and error handling across all binary on/off devices.
+        #
+        # Supported operations:
+        # - Set state to 1: Turns the fan ON via fan.turn_on service
+        # - Set state to 0: Turns the fan OFF via fan.turn_off service
+        #
+        # Note: This implementation only supports binary on/off control.
+        # Advanced fan features (speed, direction, oscillation) are not yet supported.
+        #
+        # Validation:
+        # - entity_point must be 'state' (basic on/off only)
+        # - value must be exactly 0 or 1 (integer)
+        # - Non-conforming values raise ValueError with descriptive message
         elif "fan." in register.entity_id:
             self._handle_on_off_entity(
                 entity_id=register.entity_id,
@@ -220,29 +237,64 @@ class Interface(BasicRevert, BaseInterface):
             raise ValueError(error_msg)
         return register.value
 
+    def _validate_binary_state(self, entity_id, value):
+        """
+        Validate that a value represents a valid binary on/off state.
+    
+        This helper ensures consistent validation across all on/off entities,
+        providing clear error messages when invalid values are provided.
+    
+        Args:
+            entity_id (str): The entity ID being controlled (for error messages)
+            value: The value to validate
+        
+        Raises:
+            ValueError: If value is not an integer 0 or 1
+        
+        Example:
+            >>> self._validate_binary_state('switch.test', 1)  # OK
+            >>> self._validate_binary_state('switch.test', 2)  # Raises ValueError
+        """
+        if not isinstance(value, int) or value not in (0, 1):
+            error_msg = (
+                f"State value for {entity_id} must be an integer 0 (off) or 1 (on), "
+                f"but received: {value} (type: {type(value).__name__})"
+            )
+            _log.error(error_msg)
+            raise ValueError(error_msg)
+
+
     ### INTERNAL HELPER FOR GENERIC ON/OFF ENTITIES (switch, fan, etc.)
     def _handle_on_off_entity(self, entity_id, entity_point, value, entity_kind):
         """
-        Shared helper for entities that support simple on/off state.
-
-        entity_kind examples: "switch", "fan"
-        value:
-            1 -> on
-            0 -> off
+        Shared helper for entities that support simple on/off state control.
+    
+        This method consolidates validation and routing logic for all binary
+        on/off entities (switches, fans, etc.), ensuring consistent behavior
+        and reducing code duplication.
+    
+        Args:
+            entity_id (str): The Home Assistant entity ID (e.g., 'switch.living_room')
+            entity_point (str): The entity point being controlled (must be 'state' for on/off entities)
+            value (int): The desired state value (0 = off, 1 = on)
+            entity_kind (str): The type of entity being controlled ('switch' or 'fan')
+    
+        Raises:
+            ValueError: If entity_point is not 'state'
+            ValueError: If value is not exactly 0 or 1
+            ValueError: If entity_kind is not supported
+        
+        Example:
+            >>> self._handle_on_off_entity('switch.bedroom', 'state', 1, 'switch')
+            # Turns on switch.bedroom
         """
-        # For these entities we only support the "state" point
         if entity_point != "state":
             error_msg = f"Unsupported entity point '{entity_point}' for {entity_kind} {entity_id}"
             _log.error(error_msg)
             raise ValueError(error_msg)
 
-        # Validate that we only accept 0 or 1 as integers
-        if not isinstance(value, int) or value not in (0, 1):
-            error_msg = f"State value for {entity_id} must be 1 (on) or 0 (off)"
-            _log.error(error_msg)
-            raise ValueError(error_msg)
-
-        # Route to the correct helper method based on entity_kind
+        self._validate_binary_state(entity_id, value)
+    
         if entity_kind == "switch":
             if value == 1:
                 self.turn_on_switch(entity_id)
@@ -309,12 +361,23 @@ class Interface(BasicRevert, BaseInterface):
                         attribute = entity_data.get("attributes", {}).get(f"{entity_point}", 0)
                         register.value = attribute
                         result[register.point_name] = attribute
-                ### GENERIC ON/OFF ENTITIES
-                #   light.*, input_boolean.*, switch.*, fan.*
-                #   state:
-                #   "on"  -> 1
-                #   "off" -> 0
-                #   any other state is returned as-is (e.g., "unavailable").
+                ### GENERIC ON/OFF ENTITIES (light.*, input_boolean.*, switch.*, fan.*)
+                # Handles reading state for all entities that use simple binary on/off states.
+                # This unified approach ensures consistent state representation across different
+                # Home Assistant entity types.
+                #
+                # State mapping:
+                # - "on"  → 1 (VOLTTRON representation of ON state)
+                # - "off" → 0 (VOLTTRON representation of OFF state)
+                # - Other values (e.g., "unavailable") → returned as-is for error handling
+                #
+                # Attributes:
+                # - Non-state points (brightness, temperature, etc.) are read from the
+                #   entity's attributes dictionary
+                #
+                # Newly added support for:
+                # - switch.* entities (binary switches)
+                # - fan.* entities (basic on/off fans)
                 elif (
                     entity_id.startswith("light.")
                     or entity_id.startswith("input_boolean.")
@@ -481,10 +544,26 @@ class Interface(BasicRevert, BaseInterface):
         else:
             print(f"Failed to set {entity_id} to {state}: {response.text}")
 
-    ### INTERNAL HELPER FOR HOME ASSISTANT SERVICES
     def _call_ha_service(self, domain, service, entity_id, operation_description):
         """
-        Internal helper to call a Home Assistant service.
+        Internal helper to call any Home Assistant service via REST API.
+    
+        This method abstracts the common pattern of calling Home Assistant services,
+        eliminating duplicate code across multiple turn_on/turn_off methods. It handles
+        URL construction, authentication headers, and payload formatting.
+    
+        Args:
+            domain (str): The Home Assistant domain (e.g., 'switch', 'fan', 'light')
+            service (str): The service to call (e.g., 'turn_on', 'turn_off')
+            entity_id (str): The entity to control (e.g., 'switch.living_room')
+            operation_description (str): Human-readable description for logging
+        
+        Raises:
+            Exception: If the API call fails or returns a non-200 status code
+        
+        Example:
+            >>> self._call_ha_service('switch', 'turn_on', 'switch.bedroom', 'turn on switch.bedroom')
+            # Calls: http://IP:PORT/api/services/switch/turn_on
         """
         url = f"http://{self.ip_address}:{self.port}/api/services/{domain}/{service}"
         headers = {
@@ -497,36 +576,78 @@ class Interface(BasicRevert, BaseInterface):
 
         _post_method(url, headers, payload, operation_description)
 
-    ### SWITCH HELPER METHODS
-    ### switch.turn_off
     def turn_off_switch(self, entity_id):
         """
-        Turn off a Home Assistant switch entity (switch.*).
+        Turn off a Home Assistant switch entity.
+    
+        Uses the Home Assistant REST API to send a turn_off command to a switch entity.
+        This is a convenience wrapper around _call_ha_service for switch.turn_off.
+    
+        Args:
+            entity_id (str): The switch entity ID (e.g., 'switch.living_room')
+        
+        Raises:
+            Exception: If the API call fails
+        
+        Example:
+            >>> self.turn_off_switch('switch.bedroom_lamp')
         """
         operation_description = f"turn off {entity_id}"
         self._call_ha_service("switch", "turn_off", entity_id, operation_description)
 
-    ### switch.turn_on
     def turn_on_switch(self, entity_id):
         """
-        Turn on a Home Assistant switch entity (switch.*).
+        Turn on a Home Assistant switch entity.
+    
+        Uses the Home Assistant REST API to send a turn_on command to a switch entity.
+        This is a convenience wrapper around _call_ha_service for switch.turn_on.
+    
+        Args:
+            entity_id (str): The switch entity ID (e.g., 'switch.living_room')
+        
+        Raises:
+            Exception: If the API call fails
+        
+        Example:
+            >>> self.turn_on_switch('switch.bedroom_lamp')
         """
         operation_description = f"turn on {entity_id}"
         self._call_ha_service("switch", "turn_on", entity_id, operation_description)
 
-    ### FAN METHOD HELPERS
-    ### fan.turn_off
     def turn_off_fan(self, entity_id):
         """
-        Turn off a Home Assistant fan entity (fan.*).
+        Turn off a Home Assistant fan entity.
+    
+        Uses the Home Assistant REST API to send a turn_off command to a fan entity.
+        This is a convenience wrapper around _call_ha_service for fan.turn_off.
+    
+        Args:
+            entity_id (str): The fan entity ID (e.g., 'fan.ceiling_fan')
+        
+        Raises:
+            Exception: If the API call fails
+        
+        Example:
+            >>> self.turn_off_fan('fan.bedroom')
         """
         operation_description = f"turn off {entity_id}"
         self._call_ha_service("fan", "turn_off", entity_id, operation_description)
 
-    ### fan.turn_on
     def turn_on_fan(self, entity_id):
         """
-        Turn on a Home Assistant fan entity (fan.*).
+        Turn on a Home Assistant fan entity.
+    
+        Uses the Home Assistant REST API to send a turn_on command to a fan entity.
+        This is a convenience wrapper around _call_ha_service for fan.turn_on.
+    
+        Args:
+            entity_id (str): The fan entity ID (e.g., 'fan.ceiling_fan')
+        
+        Raises:
+            Exception: If the API call fails
+        
+        Example:
+            >>> self.turn_on_fan('fan.bedroom')
         """
         operation_description = f"turn on {entity_id}"
         self._call_ha_service("fan", "turn_on", entity_id, operation_description)
