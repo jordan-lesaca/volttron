@@ -797,6 +797,21 @@ class TestHelperMethods:
         mock_interface._handle_on_off_entity("fan.test", "state", 1, "fan")
         assert "fan/turn_on" in mock_post.call_args[0][0]
 
+    @pytest.mark.parametrize("entity_kind", ["humidifier", "siren", "media_player"])
+    @patch('home_assistant.requests.post')
+    def test_handle_on_off_entity_additional_domains(self, mock_post, mock_interface, entity_kind):
+        """Ensure new on/off domains route through HA turn_on/turn_off services."""
+        mock_post.return_value = MockResponse({}, 200)
+        entity_id = f"{entity_kind}.test_device"
+
+        mock_interface._handle_on_off_entity(
+            entity_id=entity_id,
+            entity_point="state",
+            value=1,
+            entity_kind=entity_kind
+        )
+        assert f"{entity_kind}/turn_on" in mock_post.call_args[0][0]
+
 
 class TestUserWrittenTestsMocked:
     """
@@ -1029,6 +1044,42 @@ class TestUserWrittenTestsMocked:
         assert result.get("fan_state") == 0, (
             f"Expected fan_state to be 0 (OFF), got {result.get('fan_state')}"
         )
+
+    @pytest.mark.parametrize("domain", ["humidifier", "siren", "media_player"])
+    @patch('home_assistant.requests.post')
+    @patch('home_assistant.requests.get')
+    def test_set_generic_on_off_domains(self, mock_get, mock_post, mock_interface, domain):
+        """
+        Validate new on/off-capable domains route through set_point and scrape_all.
+        """
+        from home_assistant import HomeAssistantRegister
+
+        point_name = f"{domain}_state"
+        entity_id = f"{domain}.test_device"
+        register = HomeAssistantRegister(
+            False, point_name, "On/Off", int, {}, entity_id, "state"
+        )
+
+        mock_interface.get_register_by_name = Mock(return_value=register)
+        mock_interface.get_registers_by_type = Mock(return_value=[register])
+        mock_post.return_value = MockResponse({}, 200)
+
+        # Turn on
+        mock_interface._set_point(point_name, 1)
+        assert f"{domain}/turn_on" in mock_post.call_args[0][0]
+
+        mock_get.return_value = MockResponse({"state": "on", "attributes": {}}, 200)
+        result_on = mock_interface._scrape_all()
+        assert result_on.get(point_name) == 1
+
+        # Turn off
+        mock_post.reset_mock()
+        mock_interface._set_point(point_name, 0)
+        assert f"{domain}/turn_off" in mock_post.call_args[0][0]
+
+        mock_get.return_value = MockResponse({"state": "off", "attributes": {}}, 200)
+        result_off = mock_interface._scrape_all()
+        assert result_off.get(point_name) == 0
 
 
 if __name__ == "__main__":
