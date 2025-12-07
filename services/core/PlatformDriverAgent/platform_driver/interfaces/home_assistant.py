@@ -41,6 +41,14 @@ type_mapping = {"string": str,
                 "float": float,
                 "bool": bool,
                 "boolean": bool}
+# Domains that support simple on/off semantics via turn_on/turn_off services.
+SUPPORTED_ON_OFF_DOMAINS = (
+    "switch",
+    "fan",
+    "humidifier",
+    "siren",
+    "media_player",
+)
 
 
 class HomeAssistantRegister(BaseRegister):
@@ -119,6 +127,7 @@ class Interface(BasicRevert, BaseInterface):
                 "Trying to write to a point configured read only: " + point_name)
         register.value = register.reg_type(value)  # setting the value
         entity_point = register.entity_point
+        entity_domain = register.entity_id.split(".", 1)[0]
 
         # Changing lights values in home assistant based off of register value.
         if "light." in register.entity_id:
@@ -158,50 +167,14 @@ class Interface(BasicRevert, BaseInterface):
                     raise ValueError(error_msg)
             else:
                 _log.info(f"Currently, input_booleans only support state")
-        
-        ### SWITCH HANDLING
-        # Provides write support for Home Assistant switch entities (switch.*).
-        # This implementation uses the shared _handle_on_off_entity helper to ensure
-        # consistent validation and error handling across all binary on/off devices.
-        # 
-        # Supported operations:
-        # - Set state to 1: Turns the switch ON via switch.turn_on service
-        # - Set state to 0: Turns the switch OFF via switch.turn_off service
-        # 
-        # Validation:
-        # - entity_point must be 'state' (switches don't support other control points)  
-        # - value must be exactly 0 or 1 (integer)
-        # - Non-conforming values raise ValueError with descriptive message
-        elif "switch." in register.entity_id:
+        ### GENERIC ON/OFF DOMAINS (switch, fan, humidifier, siren, media_player)
+        # Covers any entity ID that supports turn_on/turn_off semantics.
+        elif entity_domain in SUPPORTED_ON_OFF_DOMAINS:
             self._handle_on_off_entity(
                 entity_id=register.entity_id,
                 entity_point=entity_point,
                 value=register.value,
-                entity_kind="switch",
-            )
-
-        ### FAN HANDLING
-        # Provides write support for Home Assistant fan entities (fan.*).
-        # This implementation uses the shared _handle_on_off_entity helper to ensure
-        # consistent validation and error handling across all binary on/off devices.
-        #
-        # Supported operations:
-        # - Set state to 1: Turns the fan ON via fan.turn_on service
-        # - Set state to 0: Turns the fan OFF via fan.turn_off service
-        #
-        # Note: This implementation only supports binary on/off control.
-        # Advanced fan features (speed, direction, oscillation) are not yet supported.
-        #
-        # Validation:
-        # - entity_point must be 'state' (basic on/off only)
-        # - value must be exactly 0 or 1 (integer)
-        # - Non-conforming values raise ValueError with descriptive message
-        elif "fan." in register.entity_id:
-            self._handle_on_off_entity(
-                entity_id=register.entity_id,
-                entity_point=entity_point,
-                value=register.value,
-                entity_kind="fan",
+                entity_kind=entity_domain,
             )
 
         # Changing thermostat values.
@@ -231,7 +204,7 @@ class Interface(BasicRevert, BaseInterface):
             error_msg = (
                 f"Unsupported entity_id: {register.entity_id}. "
                 "Currently set_point is supported only for lights, input_booleans, "
-                "switches, fans, and thermostats"
+                "switches, fans, humidifiers, sirens, media players, and thermostats"
             )
             _log.error(error_msg)
             raise ValueError(error_msg)
@@ -294,21 +267,23 @@ class Interface(BasicRevert, BaseInterface):
             raise ValueError(error_msg)
 
         self._validate_binary_state(entity_id, value)
-    
-        if entity_kind == "switch":
-            if value == 1:
-                self.turn_on_switch(entity_id)
-            else:
-                self.turn_off_switch(entity_id)
-        elif entity_kind == "fan":
-            if value == 1:
-                self.turn_on_fan(entity_id)
-            else:
-                self.turn_off_fan(entity_id)
-        else:
+
+        supported_domains = {
+            "switch": "switch",
+            "fan": "fan",
+            "humidifier": "humidifier",
+            "siren": "siren",
+            "media_player": "media_player",
+        }
+
+        if entity_kind not in supported_domains:
             error_msg = f"Unsupported entity kind '{entity_kind}' for on/off handler"
             _log.error(error_msg)
             raise ValueError(error_msg)
+
+        service = "turn_on" if value == 1 else "turn_off"
+        domain = supported_domains[entity_kind]
+        self._call_ha_service(domain, service, entity_id, f"{service.replace('_', ' ')} {entity_id}")
 
     def get_entity_data(self, point_name):
         headers = {
@@ -378,11 +353,11 @@ class Interface(BasicRevert, BaseInterface):
                 # Newly added support for:
                 # - switch.* entities (binary switches)
                 # - fan.* entities (basic on/off fans)
+                # - humidifier.*, siren.*, and media_player.* (turn_on/turn_off only)
                 elif (
                     entity_id.startswith("light.")
                     or entity_id.startswith("input_boolean.")
-                    or entity_id.startswith("switch.")
-                    or entity_id.startswith("fan.")
+                    or any(entity_id.startswith(f"{domain}.") for domain in SUPPORTED_ON_OFF_DOMAINS)
                 ):
                     if entity_point == "state":
                         state = entity_data.get("state", None)
