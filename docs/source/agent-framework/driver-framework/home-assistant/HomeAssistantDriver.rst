@@ -4,7 +4,7 @@ Home Assistant Driver
 =====================
 
 The Home Assistant driver enables VOLTTRON to read any data point from any Home Assistant controlled device.
-Control (write access) is supported for lights (state and brightness), thermostats (state and temperature), and for simple on/off entities such as switches (``switch.*``) and fans (``fan.*``) using integer values ``1`` (on) and ``0`` (off).
+Control (write access) is supported for lights (state and brightness), thermostats (state and temperature), and for simple on/off entities such as switches (``switch.*``) and fans (``fan.*``) using integer values ``1`` (on) and ``0`` (off). On/off support also applies to other domains that expose ``turn_on``/``turn_off`` services: ``humidifier.*``, ``siren.*``, and ``media_player.*``.
 
 The following diagram shows interaction between platform driver agent and home assistant driver.
 
@@ -114,6 +114,40 @@ For example, if a registry file contains entities with
 id  'light.instance1' and 'light.instance2' the entry for the attribute brightness for these two light instances could
 have "Volttron Point Name" as 'light1/brightness' and 'light2/brightness' respectively. This would ensure that data
 is posted to unique topic names and brightness data from light1 is not overwritten by light2 or vice-versa.
+
+Example Additional On/Off Devices
+*********************************
+
+The same on/off pattern can be used for other Home Assistant domains that expose ``turn_on``/``turn_off`` services. All of these accept ``1`` (on) and ``0`` (off):
+
+.. code-block:: json
+
+   [
+       {
+           "Entity ID": "humidifier.bedroom",
+           "Entity Point": "state",
+           "Volttron Point Name": "humidifier_state",
+           "Units": "On / Off",
+           "Writable": true,
+           "Type": "int"
+       },
+       {
+           "Entity ID": "siren.garage",
+           "Entity Point": "state",
+           "Volttron Point Name": "siren_state",
+           "Units": "On / Off",
+           "Writable": true,
+           "Type": "int"
+       },
+       {
+           "Entity ID": "media_player.living_room",
+           "Entity Point": "state",
+           "Volttron Point Name": "media_player_state",
+           "Units": "On / Off",
+           "Writable": true,
+           "Type": "int"
+       }
+   ]
 
 Example Thermostat Registry
 ***************************
